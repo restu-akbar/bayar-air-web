@@ -69,7 +69,6 @@ jobs:
           DB_USERNAME: app
           DB_PASSWORD: app
         run: |
-          # tunggu mysql siap
           for i in {1..30}; do
             if mysql -h 127.0.0.1 -uapp -papp -e "SELECT 1" >/dev/null 2>&1; then
               echo "MySQL ready"; break
@@ -135,7 +134,7 @@ jobs:
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_port: ${{ secrets.SSH_PORT }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+          remote_key_pass: ${{ secrets.SSH_KEY_PASSPHRASE }}
 
       # - name: Post-deploy commands (SSH)
       #   uses: appleboy/ssh-action@v1.0.3
