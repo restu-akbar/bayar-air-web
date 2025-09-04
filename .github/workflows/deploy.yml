@@ -1,0 +1,150 @@
+name: deployment
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - closed
+
+jobs:
+  build_and_check:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: app
+          MYSQL_USER: app
+          MYSQL_PASSWORD: app
+        ports: ["3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Checkout merge commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Setup PHP 8.4 + extensions (gd, zip, pdo_mysql, intl)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: >-
+            gd, zip, pdo_mysql, intl, bcmath, bz2, curl, dom, mbstring, iconv, xml
+          coverage: none
+          tools: composer
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install deps & build assets
+        run: |
+          composer install --no-dev --prefer-dist --optimize-autoloader
+          npm ci
+          npm run build
+
+      - name: Prepare .env (testing)
+        run: |
+          cp -n .env.example .env || true
+          php -r "file_exists('.env') && print('ENV exists\n');"
+          php artisan key:generate --force || true
+
+      - name: Wait DB & run basic checks
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: app
+          DB_USERNAME: app
+          DB_PASSWORD: app
+        run: |
+          # tunggu mysql siap
+          for i in {1..30}; do
+            if mysql -h 127.0.0.1 -uapp -papp -e "SELECT 1" >/dev/null 2>&1; then
+              echo "MySQL ready"; break
+            fi
+            echo "waiting mysql..."; sleep 2
+          done
+          php artisan migrate --force || true
+          php -v
+          node -v
+          php -m | grep -E 'gd|intl|zip|pdo_mysql' || (echo "ext missing"; exit 1)
+
+  deploy:
+    if: github.event.pull_request.merged == true
+    needs: [build_and_check]
+    name: deploy to staging
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout merge commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+
+      - name: Setup PHP 8.4 + extensions (gd, zip, pdo_mysql, intl)
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.4"
+          extensions: >-
+            gd, zip, pdo_mysql, intl, bcmath, bz2, curl, dom, mbstring, iconv, xml
+          coverage: none
+          tools: composer
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install deps & build assets (prod)
+        run: |
+          composer install --no-dev --prefer-dist --optimize-autoloader
+          npm ci
+          npm run build
+
+      - name: Cleanup files before deploy
+        run: |
+          rm -rf node_modules .git .github tests storage/debugbar vite.config.js webpack.mix.js yarn.lock package-lock.json
+
+      - name: Deploy with rsync over SSH
+        uses: Burnett01/rsync-deployments@7.0.2
+        with:
+          switches: >-
+            -avzr --delete
+            --exclude='.env'
+            --exclude='storage/**'
+            --exclude='.git/**'
+            --exclude='.github/**'
+            --exclude='node_modules/**'
+            --exclude='tests/**'
+          path: .
+          remote_path: /home/u185048375/domains/lahkerja-dev.progantara.com/public_html/
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_port: ${{ secrets.SSH_PORT }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # - name: Post-deploy commands (SSH)
+      #   uses: appleboy/ssh-action@v1.0.3
+      #   with:
+      #     host: ${{ secrets.SSH_HOST }}
+      #     username: ${{ secrets.SSH_USERNAME }}
+      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
+      #     port: ${{ secrets.SSH_PORT }}
+      #     script: |
+      #       cd /home/u185048375/domains/lahkerja-dev.progantara.com/public_html/
+      #       php artisan migrate --force
+      #       php artisan config:cache
+      #       php artisan route:cache
