@@ -85,7 +85,9 @@ jobs:
           php -m | grep -E 'gd|intl|zip|pdo_mysql' || (echo "ext missing"; exit 1)
 
   deploy:
-    if: github.event.pull_request.merged == true
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     needs: [build_and_check]
     name: deploy to staging
     runs-on: ubuntu-latest
