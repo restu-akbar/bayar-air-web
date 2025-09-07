@@ -12,9 +12,10 @@ on:
 
 jobs:
   build_and_check:
-    if: github.event.pull_request.merged == true
+    if: |
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:8.0
