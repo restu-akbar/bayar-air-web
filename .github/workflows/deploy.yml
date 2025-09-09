@@ -142,32 +142,6 @@ jobs:
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
           remote_key_pass: ${{ secrets.SSH_KEY_PASSPHRASE }}
 
-      - name: Add SSH key to agent
-        uses: webfactory/ssh-agent@v0.9.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
-
-      - name: Prepare storage & cache dirs
-        run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} \
-             ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
-            cd /home/u185048375/domains/bayarair.progantara.com/bayar-air &&
-            mkdir -p storage/framework/{cache,data,sessions,views,testing} bootstrap/cache &&
-            chmod -R 775 storage bootstrap/cache
-          "
-
-      - name: Publish /public to public_html
-        run: |
-          ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }} \
-             ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
-            set -e
-            rm -rf /home/u185048375/domains/bayarair.progantara.com/public_html/* &&
-            cp -r /home/u185048375/domains/bayarair.progantara.com/bayar-air/public/* \
-                  /home/u185048375/domains/bayarair.progantara.com/public_html/ &&
-            sed -i \"s#__DIR__.'/../vendor/autoload.php'#__DIR__.'/../bayar-air/vendor/autoload.php'#\" /home/u185048375/domains/bayarair.progantara.com/public_html/index.php &&
-            sed -i \"s#__DIR__.'/../bootstrap/app.php'#__DIR__.'/../bayar-air/bootstrap/app.php'#\" /home/u185048375/domains/bayarair.progantara.com/public_html/index.php
-          "
       # - name: Post-deploy commands (SSH)
       #   uses: appleboy/ssh-action@v1.0.3
       #   with:
