@@ -1,40 +1,74 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
+<!doctype html>
+<html lang="en" data-bs-theme="blue-theme">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- favicon -->
+    <link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png">
+    <!-- loader -->
+    <link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet">
+    <script src="{{ asset('assets/js/pace.min.js') }}"></script>
+    <!-- plugins -->
+    <link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/metismenu/metisMenu.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/metismenu/mm-vertical.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
+    <!-- bootstrap css -->
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+    <!-- main css -->
+    <link href="{{ asset('sass/main.css') }}" rel="stylesheet">
+    <link href="{{ asset('sass/dark-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('sass/blue-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('sass/semi-dark.css') }}" rel="stylesheet">
+    <link href="{{ asset('sass/bordered-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('sass/responsive.css') }}" rel="stylesheet">
 </head>
+<body>
+    <!-- start header -->
+    @include('partials.header')
+    <!-- end header -->
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-        @include('layouts.navigation')
+    <!-- start sidebar -->
+    @include('partials.sidebar')
+    <!-- end sidebar -->
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white dark:bg-gray-800 shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endisset
+    <!-- start main content -->
+    <div class="main-wrapper">
+        @yield('content')
+    </div>
+    <!-- end main content -->
 
-        <!-- Page Content -->
-        <div class="sm:ml-64 transition-all duration-300 ease-in-out" :class="{ 'ml-0': !open }">
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
+    <!-- start overlay -->
+    <div class="overlay btn-toggle"></div>
+    <!-- end overlay -->
+
+    <!-- start footer -->
+    <footer class="page-footer">
+        <p class="mb-0">Copyright © 2024. All rights reserved.</p>
+    </footer>
+    <!-- end footer -->
+
+    <!-- theme switcher -->
+    @include('components.switcher')
+
+    <!-- bootstrap js -->
+    <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- plugins -->
+    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+    <script src="{{ asset('assets/plugins/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/apexchart/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/peity/jquery.peity.min.js') }}"></script>
+    <script>
+        $(".data-attributes span").peity("donut");
+        new PerfectScrollbar(".user-list");
+    </script>
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+    <script src="{{ asset('assets/js/dashboard1.js') }}"></script>
 </body>
-
 </html>
