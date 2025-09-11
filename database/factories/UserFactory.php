@@ -21,13 +21,19 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+    public function definition()
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'password' => static::$password ??= Hash::make('password'),
+            'id' => $this->faker->uuid(), 
+            'name' => $this->faker->name(),
+            'username' => $this->faker->unique()->userName(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'phone_number' => $this->faker->unique()->numerify('08##########'), // Generates 12-digit number like 081234567890
+            'role_name' => $this->faker->randomElement(['admin', 'user', 'editor']),
+            'password' => Hash::make('password'), // Default password
             'remember_token' => Str::random(10),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 
