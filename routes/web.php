@@ -31,32 +31,24 @@ Route::middleware('auth')->group(function () {
     // master/*
     Route::prefix('master')->group(function () {
         Route::prefix('user')->group(function () {
-            Route::get('/index', [UserController::class, 'index'])->name('master.user.index');
-            // Route::get('/create', [UserController::class, 'create'])->name('master.user.create');
-            // Route::post('/store', [UserController::class, 'store'])->name('master.user.store');
-            // Route::get('/edit/{id}', [UserController::class, 'edit'])->name('master.user.edit');
-            // Route::patch('/update/{id}', [UserController::class, 'update'])->name('master.user.update');
-            // Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('master.user.delete');
+            Route::resource('user', UserController::class);
+
+            //extra ini untuk data pada tabel yajra
+            Route::get('/index/data', [UserController::class, 'getData'])->name('master.user.data');
         });
 
         // pelanggan
         Route::prefix('pelanggan')->group(function () {
-            Route::get('/index', [PelangganController::class, 'index'])->name('master.pelanggan.index');
-            // Route::get('/create', [PelangganController::class, 'create'])->name('master.pelanggan.create');
-            // Route::post('/store', [PelangganController::class, 'store'])->name('master.pelanggan.store');
-            // Route::get('/edit/{id}', [PelangganController::class, 'edit'])->name('master.pelanggan.edit');
-            // Route::patch('/update/{id}', [PelangganController::class, 'update'])->name('master.pelanggan.update');
-            // Route::delete('/delete/{id}', [PelangganController::class, 'destroy'])->name('master.pelanggan.delete');
+            Route::resource('pelanggan', PelangganController::class);
+
+            // Route::get('/index/data', [PelangganController::class, 'getData'])->name('master.setting.data');
         });
 
         // setting
         Route::prefix('setting')->group(function () {
-            Route::get('/index', [SettingController::class, 'index'])->name('master.setting.index');
-            // Route::get('/create', [SettingController::class, 'create'])->name('master.setting.create');
-            // Route::post('/store', [SettingController::class, 'store'])->name('master.setting.store');
-            // Route::get('/edit/{id}', [SettingController::class, 'edit'])->name('master.setting.edit');
-            // Route::patch('/update/{id}', [SettingController::class, 'update'])->name('master.setting.update');
-            // Route::delete('/delete/{id}', [SettingController::class, 'destroy'])->name('master.setting.delete');
+            Route::resource('setting', SettingController::class);
+
+            // Route::get('/index/data', [SettingController::class, 'getData'])->name('master.setting.data');
         });
     });
 

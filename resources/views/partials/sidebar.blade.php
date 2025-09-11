@@ -34,19 +34,19 @@
             <!--Master-->
             <li class="menu-label">Master</li>
             <li>
-                <a href="{{ route('master.pelanggan.index') }}">
+                <a href="{{ route('pelanggan.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">person</i></div>
                     <div class="menu-title">Pelanggan</div>
                 </a>
             </li>
             <li>
-                <a href="{{ route('master.user.index') }}">
+                <a href="{{ route('user.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">person_add</i></div>
                     <div class="menu-title">User</div>
                 </a>
             </li>
             <li>
-                <a href="{{ route('master.setting.index') }}">
+                <a href="{{ route('setting.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">settings</i></div>
                     <div class="menu-title">Settings</div>
                 </a>
@@ -91,6 +91,14 @@
             </li>
         </ul>
         <!--end navigation--> --}}
+            <li>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="btn w-100 d-flex align-items-center">
+                        <i class="material-icons-outlined me-2">logout</i> Logout
+                    </button>
+                </form>
+            </li>
     </div>
 </aside>
 <!--end sidebar-->
