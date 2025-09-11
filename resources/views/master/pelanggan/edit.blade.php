@@ -1,0 +1,102 @@
+@extends('layouts.app')
+@section('content')
+    <div class="card p-2">
+        <div class="card-body p-4">
+            <h5 class="mb-4">Form Edit Pelanggan</h5>
+            <form action="{{ route('pelanggan.update', $customer->id) }}" method="POST">
+                @csrf
+                @method('PATCH')
+
+                {{-- Nama --}}
+                <div class="row mb-3">
+                    <label for="name" class="col-sm-3 col-form-label">Nama</label>
+                    <div class="col-sm-9">
+                        <input type="text" 
+                               class="form-control" 
+                               id="name" 
+                               name="name" 
+                               placeholder="Masukkan nama pelanggan"
+                               value="{{ old('name', $customer->name) }}">
+                        @error('name')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Alamat --}}
+                <div class="row mb-3">
+                    <label for="address" class="col-sm-3 col-form-label">Alamat</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" 
+                                  id="address" 
+                                  name="address" 
+                                  rows="2" 
+                                  placeholder="Masukkan alamat pelanggan">{{ old('address', $customer->address) }}</textarea>
+                        @error('address')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Nomor HP --}}
+                <div class="row mb-3">
+                    <label for="phone_number" class="col-sm-3 col-form-label">Nomor HP</label>
+                    <div class="col-sm-9">
+                        <input type="text" 
+                               class="form-control" 
+                               id="phone_number" 
+                               name="phone_number" 
+                               placeholder="Masukkan nomor handphone"
+                               value="{{ old('phone_number', $customer->phone_number) }}">
+                        @error('phone_number')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- RT --}}
+                <div class="row mb-3">
+                    <label for="rt" class="col-sm-3 col-form-label">RT</label>
+                    <div class="col-sm-9">
+                        <input type="text" 
+                               class="form-control" 
+                               id="rt" 
+                               name="rt" 
+                               placeholder="Masukkan RT"
+                               value="{{ old('rt', $customer->rt) }}">
+                        @error('rt')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- RW --}}
+                <div class="row mb-3">
+                    <label for="rw" class="col-sm-3 col-form-label">RW</label>
+                    <div class="col-sm-9">
+                        <input type="text" 
+                               class="form-control" 
+                               id="rw" 
+                               name="rw" 
+                               placeholder="Masukkan RW"
+                               value="{{ old('rw', $customer->rw) }}">
+                        @error('rw')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- Tombol Aksi --}}
+                <div class="row">
+                    <label class="col-sm-3 col-form-label"></label>
+                    <div class="col-sm-9">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary px-4">Update</button>
+                            <a href="{{ route('pelanggan.index') }}" class="btn btn-secondary px-4">Batal</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+@endsection

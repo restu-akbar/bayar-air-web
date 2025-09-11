@@ -41,7 +41,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('pelanggan')->group(function () {
             Route::resource('pelanggan', PelangganController::class);
 
-            // Route::get('/index/data', [PelangganController::class, 'getData'])->name('master.setting.data');
+            Route::get('/index/data', [PelangganController::class, 'getData'])->name('master.pelanggan.data');
         });
 
         // setting
