@@ -54,35 +54,26 @@
                     </div>
                 </div>
 
-                {{-- RT --}}
+                {{-- RT & RW --}}
                 <div class="row mb-3">
-                    <label for="rt" class="col-sm-3 col-form-label">RT</label>
+                    <label class="col-sm-3 col-form-label">RT / RW</label>
                     <div class="col-sm-9">
-                        <input type="text" 
-                               class="form-control" 
-                               id="rt" 
-                               name="rt" 
-                               placeholder="Masukkan RT"
-                               value="{{ old('rt', $customer->rt) }}">
-                        @error('rt')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- RW --}}
-                <div class="row mb-3">
-                    <label for="rw" class="col-sm-3 col-form-label">RW</label>
-                    <div class="col-sm-9">
-                        <input type="text" 
-                               class="form-control" 
-                               id="rw" 
-                               name="rw" 
-                               placeholder="Masukkan RW"
-                               value="{{ old('rw', $customer->rw) }}">
-                        @error('rw')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="rt" name="rt"
+                                    placeholder="Masukkan RT" value="{{ old('rt', $customer->rt) }}">
+                                @error('rt')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="rw" name="rw"
+                                    placeholder="Masukkan RW" value="{{ old('rw', $customer->rw) }}">
+                                @error('rw')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
 

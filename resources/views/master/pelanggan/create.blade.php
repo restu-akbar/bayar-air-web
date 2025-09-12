@@ -10,12 +10,8 @@
                 <div class="row mb-3">
                     <label for="name" class="col-sm-3 col-form-label">Nama</label>
                     <div class="col-sm-9">
-                        <input type="text" 
-                               class="form-control" 
-                               id="name" 
-                               name="name" 
-                               placeholder="Masukkan nama pelanggan"
-                               value="{{ old('name') }}">
+                        <input type="text" class="form-control" id="name" name="name"
+                            placeholder="Masukkan nama pelanggan" value="{{ old('name') }}">
                         @error('name')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -26,11 +22,7 @@
                 <div class="row mb-3">
                     <label for="address" class="col-sm-3 col-form-label">Alamat</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" 
-                                  id="address" 
-                                  name="address" 
-                                  rows="2" 
-                                  placeholder="Masukkan alamat pelanggan">{{ old('address') }}</textarea>
+                        <textarea class="form-control" id="address" name="address" rows="2" placeholder="Masukkan alamat pelanggan">{{ old('address') }}</textarea>
                         @error('address')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -41,47 +33,34 @@
                 <div class="row mb-3">
                     <label for="phone_number" class="col-sm-3 col-form-label">Nomor HP</label>
                     <div class="col-sm-9">
-                        <input type="text" 
-                               class="form-control" 
-                               id="phone_number" 
-                               name="phone_number" 
-                               placeholder="Masukkan nomor handphone"
-                               value="{{ old('phone_number') }}">
+                        <input type="text" class="form-control" id="phone_number" name="phone_number"
+                            placeholder="Masukkan nomor handphone" value="{{ old('phone_number') }}">
                         @error('phone_number')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
 
-                {{-- RT --}}
+                {{-- RT & RW --}}
                 <div class="row mb-3">
-                    <label for="rt" class="col-sm-3 col-form-label">RT</label>
+                    <label class="col-sm-3 col-form-label">RT / RW</label>
                     <div class="col-sm-9">
-                        <input type="text" 
-                               class="form-control" 
-                               id="rt" 
-                               name="rt" 
-                               placeholder="Masukkan RT"
-                               value="{{ old('rt') }}">
-                        @error('rt')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
-                    </div>
-                </div>
-
-                {{-- RW --}}
-                <div class="row mb-3">
-                    <label for="rw" class="col-sm-3 col-form-label">RW</label>
-                    <div class="col-sm-9">
-                        <input type="text" 
-                               class="form-control" 
-                               id="rw" 
-                               name="rw" 
-                               placeholder="Masukkan RW"
-                               value="{{ old('rw') }}">
-                        @error('rw')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="rt" name="rt"
+                                    placeholder="Masukkan RT" value="{{ old('rt') }}">
+                                @error('rt')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="rw" name="rw"
+                                    placeholder="Masukkan RW" value="{{ old('rw') }}">
+                                @error('rw')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
                 </div>
 
