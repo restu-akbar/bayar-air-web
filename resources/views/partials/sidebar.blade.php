@@ -25,7 +25,7 @@
             <!--Section-->
             <li class="menu-label">Modul</li>
             <li>
-                <a href="{{ route('module.laporan.index') }}">
+                <a href="{{ route('laporan.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">bar_chart</i>
                     </div>
                     <div class="menu-title">Laporan</div>

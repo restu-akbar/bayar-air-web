@@ -23,8 +23,10 @@ Route::middleware('auth')->group(function () {
 
     // module/*
     Route::prefix('module')->group(function () {
-        Route::prefix('user')->group(function () {
-            Route::get('/index', [LaporanController::class, 'index'])->name('module.laporan.index');
+        Route::prefix('laporan')->group(function () {
+            Route::resource('laporan', LaporanController::class)->only(['index']);
+            Route::get('/laporan/{id}', [LaporanController::class, 'detail_popup'])->name('laporan.detail');
+            Route::get('/index/data', [LaporanController::class, 'getData'])->name('laporan.data');
         });
     });
 
