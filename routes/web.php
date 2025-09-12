@@ -46,9 +46,8 @@ Route::middleware('auth')->group(function () {
 
         // setting
         Route::prefix('setting')->group(function () {
-            Route::resource('setting', SettingController::class);
+            Route::resource('setting', SettingController::class)->only(['index', 'store']);
 
-            // Route::get('/index/data', [SettingController::class, 'getData'])->name('master.setting.data');
         });
     });
 
