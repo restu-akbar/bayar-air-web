@@ -2,10 +2,10 @@
 <aside class="sidebar-wrapper" data-simplebar="true">
     <div class="sidebar-header">
         <div class="logo-icon">
-            {{-- <img src="assets/images/logo-icon.png" class="logo-img" alt=""> logo --}}
+            <img src="{{ asset('assets/images/logo-bayar-air.png') }}" class="logo-img" alt="Logo">
         </div>
         <div class="logo-name flex-grow-1">
-            <h5 class="mb-0">Bayar Air Admin</h5>
+            <h5 class="mb-0">Bayar Air</h5>
         </div>
         <div class="sidebar-close">
             <span class="material-icons-outlined">close</span>
@@ -92,13 +92,16 @@
         </ul>
         <!--end navigation--> --}}
             <li>
-                <form method="POST" action="{{ route('logout') }}">
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <div class="parent-icon"><i class="material-icons-outlined">logout</i></div>
+                    <div class="menu-title">Logout</div>
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
-                    <button type="submit" class="btn w-100 d-flex align-items-center">
-                        <i class="material-icons-outlined me-2">logout</i> Logout
-                    </button>
                 </form>
             </li>
+
     </div>
 </aside>
 <!--end sidebar-->

@@ -1,12 +1,27 @@
 @extends('layouts.app')
 @section('content')
-<div class="card">
+
+{{-- bread crumb --}}
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3 p-2">
+    <div class="breadcrumb-title pe-3 ms-4">Pelanggan</div>
+        <div class="ps-3 flex-grow-1">
+            <nav aria-label="breadcrumb">
+                {{-- <ol class="breadcrumb mb-0 p-0">
+                    <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Analysis</li>
+                </ol> --}}
+            </nav>
+        </div>
+    <a href="{{ route('pelanggan.create') }}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Tambah Pelanggan
+    </a>
+</div>
+
+<div class="card m-3">
     <div class="card-body">
         <div class="d-flex justify-content-between mb-3">
-            <h5 class="card-title">Daftar Pelanggan</h5>
-            <a href="{{ route('pelanggan.create') }}" class="btn btn-primary">
-                <i class="bi bi-plus-lg"></i> Tambah Pelanggan
-            </a>
+            <h5 class="card-title">Daftar Pelanggan</h5> 
         </div>
         <hr>
         <div class="table-responsive">
