@@ -48,7 +48,7 @@
 
     <!-- start footer -->
     <footer class="page-footer">
-        <p class="mb-0">Footer ini di isi logo progantara dan kontak ajaa ~~</p>
+        <p class="mb-0">Copyright © {{ date('Y') }}. All right reserved.</p>
     </footer>
     <!-- end footer -->
 
