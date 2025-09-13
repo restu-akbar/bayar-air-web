@@ -23,6 +23,22 @@ class LaporanController extends Controller
         if ($request->ajax()) {
             $data = MeterRecord::with(['user', 'customer']);
 
+            // filter rentang waktu 
+            if ($request->filled('start_date') && $request->filled('end_date')) {
+                $startDate = Carbon::parse($request->input('start_date'))->startOfDay();
+                $endDate   = Carbon::parse($request->input('end_date'))->endOfDay();
+                $data->whereBetween('meter_records.created_at', [$startDate, $endDate]);
+            } elseif ($request->filled('start_date')) { //Start only
+                $startDate = Carbon::parse($request->input('start_date'))->startOfDay();
+                $endDate   = Carbon::now()->endOfDay();
+                $data->whereBetween('meter_records.created_at', [$startDate, $endDate]);
+            } elseif ($request->filled('end_date')) { //End only
+                $endDate = Carbon::parse($request->input('end_date'))->endOfDay();
+                $data->where('meter_records.created_at', '<=', $endDate);
+            }
+
+            $data = $data->get();
+
             return DataTables::of($data)
                 ->addIndexColumn() // untuk nomor urut
                 ->editColumn('created_at', function ($row) {
