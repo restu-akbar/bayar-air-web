@@ -22,5 +22,11 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '12345678',
             'role_name' => 'admin',
         ]);
+
+        $this->call([
+            CustomersSeeder::class,
+            UsersSeeder::class,
+            MeterRecordsSeeder::class,
+        ]);
     }
 }

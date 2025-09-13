@@ -15,7 +15,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::middleware('auth')->group(function () {
@@ -23,8 +23,10 @@ Route::middleware('auth')->group(function () {
 
     // module/*
     Route::prefix('module')->group(function () {
-        Route::prefix('user')->group(function () {
-            Route::get('/index', [LaporanController::class, 'index'])->name('module.laporan.index');
+        Route::prefix('laporan')->group(function () {
+            Route::resource('laporan', LaporanController::class)->only(['index']);
+            Route::get('/laporan/{id}', [LaporanController::class, 'detail_popup'])->name('laporan.detail');
+            Route::get('/index/data', [LaporanController::class, 'getData'])->name('laporan.data');
         });
     });
 
@@ -41,14 +43,13 @@ Route::middleware('auth')->group(function () {
         Route::prefix('pelanggan')->group(function () {
             Route::resource('pelanggan', PelangganController::class);
 
-            // Route::get('/index/data', [PelangganController::class, 'getData'])->name('master.setting.data');
+            Route::get('/index/data', [PelangganController::class, 'getData'])->name('master.pelanggan.data');
         });
 
         // setting
         Route::prefix('setting')->group(function () {
-            Route::resource('setting', SettingController::class);
+            Route::resource('setting', SettingController::class)->only(['index', 'store']);
 
-            // Route::get('/index/data', [SettingController::class, 'getData'])->name('master.setting.data');
         });
     });
 
