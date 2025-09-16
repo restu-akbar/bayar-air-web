@@ -69,6 +69,7 @@ class LaporanController extends Controller
             'fine' => $record->fine,
             'duty_stamp' => $record->duty_stamp,
             'retribution_fee' => $record->retribution_fee,
+            'status'=> $record->status,
             'created_at' => $record->created_at->format('d-m-Y'),
             'evidence' => asset('storage/' . $record->evidence),
         ]);

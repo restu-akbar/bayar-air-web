@@ -50,6 +50,7 @@
                         <th>meter</th>
                         <th>Total pembayaran</th>
                         <th>Tanggal dibuat</th>
+                        <th>Status pembayaran</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -75,6 +76,7 @@
           <tr><th>Denda</th><td id="detail-fine"></td></tr>
           <tr><th>Materai</th><td id="detail-duty"></td></tr>
           <tr><th>Retribusi</th><td id="detail-retribution"></td></tr>
+          <tr><th>Status pembayaran</th><td id="detail-status"></td></tr>
           <tr><th>Tanggal di catat</th><td id="detail-date"></td></tr>
         </table>
         <div class="text-center">
@@ -156,6 +158,7 @@ document.addEventListener('DataTablesReady', function() {
             { data: 'meter', name: 'meter' },
             { data: 'total_amount', name: 'total_amount' },
             { data: 'created_at', name: 'created_at' },
+            { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable:false, searchable:false }
         ]
     });
@@ -186,6 +189,7 @@ document.addEventListener('DataTablesReady', function() {
             $('#detail-duty').text(data.duty_stamp);
             $('#detail-retribution').text(data.retribution_fee);
             $('#detail-date').text(data.created_at);
+            $('#detail-status').text(data.status);
             $('#detail-evidence').attr('src', data.evidence);
 
             $('#detailModal').modal('show');
