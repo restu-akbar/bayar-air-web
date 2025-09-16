@@ -15,12 +15,31 @@
         </div>
 </div>
 
-<div class="card m-3">
-    <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
-            <h5 class="card-title">Daftar Pencatatan</h5>
-        </div>
-        <hr>
+    <div class="card m-3">
+        <div class="card-body">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+                <h5 class="card-title">Daftar Pencatatan</h5>
+                <!-- Filter Section -->
+                <div class="d-flex flex-wrap align-items-center gap-2">
+                    <label class="form-label mb-0 me-2">Filter Waktu:</label>
+
+                    <div class="input-group">
+                        <input type="date" id="start-date" class="form-control">
+                        <span class="input-group-text">s/d</span>
+                        <input type="date" id="end-date" class="form-control">
+                        <button id="apply-date-filter" class="btn btn-primary btn-sm">
+                            <i class="material-icons-outlined" style="font-size:16px;">filter_alt</i> Terapkan
+                        </button>
+
+                        <button id="reset-date-filter" class="btn btn-outline-secondary btn-sm">
+                            <i class="material-icons-outlined" style="font-size:16px;">refresh</i> Reset
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
+            <hr>
         <div class="table-responsive">
             <table id="user-table" class="table table-striped table-bordered" style="width:100%">
                 <thead>
@@ -31,6 +50,7 @@
                         <th>meter</th>
                         <th>Total pembayaran</th>
                         <th>Tanggal dibuat</th>
+                        <th>Status pembayaran</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -56,6 +76,7 @@
           <tr><th>Denda</th><td id="detail-fine"></td></tr>
           <tr><th>Materai</th><td id="detail-duty"></td></tr>
           <tr><th>Retribusi</th><td id="detail-retribution"></td></tr>
+          <tr><th>Status pembayaran</th><td id="detail-status"></td></tr>
           <tr><th>Tanggal di catat</th><td id="detail-date"></td></tr>
         </table>
         <div class="text-center">
@@ -123,7 +144,13 @@ document.addEventListener('DataTablesReady', function() {
     let table = $('#user-table').DataTable({
         processing: true,
         serverSide: true,
-        ajax: "{{ route('laporan.data') }}",
+         ajax: {
+            url: "{{ route('laporan.data') }}",
+            data: function (d) {
+                d.start_date = $('#start-date').val(); 
+                d.end_date   = $('#end-date').val();   
+            }
+        },
         columns: [
             { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false },
             { data: 'customer.name', name: 'customer.name' },
@@ -131,8 +158,21 @@ document.addEventListener('DataTablesReady', function() {
             { data: 'meter', name: 'meter' },
             { data: 'total_amount', name: 'total_amount' },
             { data: 'created_at', name: 'created_at' },
+            { data: 'status', name: 'status' },
             { data: 'action', name: 'action', orderable:false, searchable:false }
         ]
+    });
+
+    // Tombol Terapkan filter
+    $('#apply-date-filter').on('click', function() {
+        table.ajax.reload();
+    });
+
+    // Tombol Reset filter
+    $('#reset-date-filter').on('click', function() {
+        $('#start-date').val('');
+        $('#end-date').val('');
+        table.ajax.reload();
     });
 
     // Binding click event setelah tabel render
@@ -149,6 +189,7 @@ document.addEventListener('DataTablesReady', function() {
             $('#detail-duty').text(data.duty_stamp);
             $('#detail-retribution').text(data.retribution_fee);
             $('#detail-date').text(data.created_at);
+            $('#detail-status').text(data.status);
             $('#detail-evidence').attr('src', data.evidence);
 
             $('#detailModal').modal('show');
