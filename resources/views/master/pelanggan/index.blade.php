@@ -96,7 +96,7 @@
         $('#pelanggan-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('master.pelanggan.data') }}",
+            ajax: "{{ route('pelanggan.index') }}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false },
                 { data: 'name', name: 'name' },

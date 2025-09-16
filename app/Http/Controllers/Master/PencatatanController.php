@@ -1,33 +1,28 @@
 <?php
 
-namespace App\Http\Controllers\Master;
+namespace App\Http\Controllers\master;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
-use App\Services\PelangganService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class PelangganController extends Controller
 {
-    protected $service;
-    public function __construct()
-    {
-        $this->service = new PelangganService;
-    }
-
     public function index(Request $request)
     {
-        return $this->service->index($request);
+        return view('master.pelanggan.index');
     }
 
     // ini maksud nya get data untuk tabel index nya
     public function getData(Request $request)
     {
         if ($request->ajax()) {
-            $data = Customer::select(['id', 'name', 'address', 'phone_number', 'rt', 'rw', 'created_at']);
+            $data = Customer::select(['id','name','address','phone_number','rt','rw','created_at']);
 
             return DataTables::of($data)
                 ->addIndexColumn()
@@ -97,9 +92,9 @@ class PelangganController extends Controller
 
         // Validate the request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255,' . $customer->id,
-            'address' => 'required|string|max:255,' . $customer->id,
-            'phone_number' => 'required|string|max:13|unique:customers,phone_number,' . $customer->id,
+            'name' => 'required|string|max:255,'. $customer->id,
+            'address' => 'required|string|max:255,'. $customer->id,
+            'phone_number' => 'required|string|max:13|unique:customers,phone_number,'. $customer->id,
             'rt' => 'required',
             'rw' => 'required',
         ]);
@@ -129,3 +124,4 @@ class PelangganController extends Controller
         return redirect()->route('pelanggan.index')->with('success', 'Customer deleted successfully.');
     }
 }
+

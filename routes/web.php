@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-
-
-use App\Http\Controllers\Module\LaporanController;
 use App\Http\Controllers\Master\PelangganController;
+use App\Http\Controllers\Module\LaporanController;
 use App\Http\Controllers\Master\SettingController;
 use App\Http\Controllers\Master\UserController;
 
@@ -40,16 +38,11 @@ Route::middleware(['auth','admin'])->group(function () {
         });
 
         // pelanggan
-        Route::prefix('pelanggan')->group(function () {
-            Route::resource('pelanggan', PelangganController::class);
-
-            Route::get('/index/data', [PelangganController::class, 'getData'])->name('master.pelanggan.data');
-        });
+        Route::resource('pelanggan', PelangganController::class)->except(['show']);
 
         // setting
         Route::prefix('setting')->group(function () {
             Route::resource('setting', SettingController::class)->only(['index', 'store']);
-
         });
     });
 
