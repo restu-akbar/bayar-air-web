@@ -5,44 +5,19 @@ namespace App\Http\Controllers\master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Hash;
+use App\Services\PelangganService;
 use Illuminate\Support\Facades\Validator;
 
 class PelangganController extends Controller
 {
+    protected $service;
+    public function __construct()
+    {
+        $this->service = new PelangganService;
+    }
     public function index(Request $request)
     {
-        return view('master.pelanggan.index');
-    }
-
-    // ini maksud nya get data untuk tabel index nya
-    public function getData(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = Customer::select(['id','name','address','phone_number','rt','rw','created_at']);
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->editColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d-m-Y');
-                })
-                ->addColumn('action', function ($row) {
-                    $editUrl = route('pelanggan.edit', $row->id);
-                    $deleteUrl = route('pelanggan.destroy', $row->id);
-                    return '
-                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
-                        <form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this user?\');">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+        return $this->service->index($request);
     }
 
     public function create()
@@ -92,9 +67,9 @@ class PelangganController extends Controller
 
         // Validate the request
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255,'. $customer->id,
-            'address' => 'required|string|max:255,'. $customer->id,
-            'phone_number' => 'required|string|max:13|unique:customers,phone_number,'. $customer->id,
+            'name' => 'required|string|max:255,' . $customer->id,
+            'address' => 'required|string|max:255,' . $customer->id,
+            'phone_number' => 'required|string|max:13|unique:customers,phone_number,' . $customer->id,
             'rt' => 'required',
             'rw' => 'required',
         ]);
@@ -124,4 +99,3 @@ class PelangganController extends Controller
         return redirect()->route('pelanggan.index')->with('success', 'Customer deleted successfully.');
     }
 }
-
