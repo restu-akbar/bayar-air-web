@@ -9,6 +9,10 @@ use App\Models\SetPrice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\SetPrice;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PencatatanController extends Controller
 {
@@ -18,10 +22,13 @@ class PencatatanController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->id();
 
+        $data['user_id'] = auth()->id();
+
         if ($request->hasFile('evidence')) {
             $data['evidence'] = $request->file('evidence')->store('evidence', 'public');
+            $data['evidence'] = $request->file('evidence')->store('evidence', 'public');
         }
-        $data['receipt'] = '';
+
         $pencatatan = MeterRecord::create($data);
         if (! $pencatatan) {
             return errorResponse("Terjadi kesalahan saat menyimpan data");
@@ -75,8 +82,6 @@ class PencatatanController extends Controller
 
         Storage::disk('public')->put($path, $pdf->output());
         $url = asset('storage/' . $path);
-
-        $pencatatan->update(['receipt' => $path]);
 
         return successResponse("Data berhasil disimpan!", [
             'pencatatan' => $pencatatan,
