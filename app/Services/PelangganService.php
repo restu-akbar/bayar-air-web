@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Customer;
+use App\Models\MeterRecord;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
@@ -35,7 +36,22 @@ class PelangganService
         }
 
         if ($request->expectsJson()) {
-            return Customer::all();
+            $start = now()->subMonthNoOverflow()->startOfMonth();
+            $end   = now()->subMonthNoOverflow()->endOfMonth();
+
+            $customers = Customer::query()
+                ->select('customers.*')
+                ->addSelect([
+                    'meter_lalu' => MeterRecord::query()
+                        ->select('meter')
+                        ->whereColumn('meter_records.customer_id', 'customers.id')
+                        ->whereBetween('created_at', [$start, $end])
+                        ->latest('created_at')
+                        ->limit(1)
+                ])
+                ->get();
+
+            return $customers;
         }
 
         return view('master.pelanggan.index');
