@@ -36,6 +36,8 @@ class PelangganService
         }
 
         if ($request->expectsJson()) {
+            $thisStart = now()->startOfMonth();
+            $thisEnd   = now()->endOfMonth();
             $start = now()->subMonthNoOverflow()->startOfMonth();
             $end   = now()->subMonthNoOverflow()->endOfMonth();
 
@@ -48,7 +50,12 @@ class PelangganService
                         ->whereBetween('created_at', [$start, $end])
                         ->latest('created_at')
                         ->limit(1)
-                ])
+                ])->whereNotExists(function ($q) use ($thisStart, $thisEnd) {
+                    $q->selectRaw(1)
+                        ->from('meter_records')
+                        ->whereColumn('meter_records.customer_id', 'customers.id')
+                        ->whereBetween('created_at', [$thisStart, $thisEnd]);
+                })
                 ->get();
 
             return $customers;
