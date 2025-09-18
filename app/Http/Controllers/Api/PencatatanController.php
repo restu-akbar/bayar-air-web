@@ -9,6 +9,10 @@ use App\Models\SetPrice;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\SetPrice;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PencatatanController extends Controller
 {
@@ -18,7 +22,10 @@ class PencatatanController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->id();
 
+        $data['user_id'] = auth()->id();
+
         if ($request->hasFile('evidence')) {
+            $data['evidence'] = $request->file('evidence')->store('evidence', 'public');
             $data['evidence'] = $request->file('evidence')->store('evidence', 'public');
         }
         $data['receipt'] = '';

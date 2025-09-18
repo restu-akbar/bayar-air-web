@@ -80,10 +80,19 @@
           <tr><th>Tanggal di catat</th><td id="detail-date"></td></tr>
         </table>
         <div class="text-center">
-          <img id="detail-evidence" src="" alt="Bukti Foto" class="img-fluid rounded">
+          <img id="detail-evidence" src="" alt="Bukti Foto" class="img-fluid rounded"  style="max-width: 500px; max-height: 400px; object-fit: contain;">>
         </div>
       </div>
     </div>
+    <div id="pdf-section" class="my-3" style="display:none;">
+    <h6 class="mb-2">Struk Pembayaran</h6>
+    <iframe id="detail-pdf" src="" width="100%" height="500px" style="border:1px solid #ccc;"></iframe>
+    <div class="mt-2">{{--  memang masih belum --}}
+      <a id="download-pdf" href="#" class="btn btn-success btn-sm" download>
+        <i class="material-icons-outlined fs-6 align-middle">download</i> Download PDF(belum)
+      </a>
+    </div>
+  </div>
   </div>
 </div>
 
@@ -191,6 +200,14 @@ document.addEventListener('DataTablesReady', function() {
             $('#detail-date').text(data.created_at);
             $('#detail-status').text(data.status);
             $('#detail-evidence').attr('src', data.evidence);
+
+            if (data.receipt) {
+                $('#pdf-section').show();
+                $('#detail-pdf').attr('src', data.receipt);
+                $('#download-pdf').attr('href', data.receipt);
+            } else {
+                $('#pdf-section').hide();
+            }
 
             $('#detailModal').modal('show');
         });
