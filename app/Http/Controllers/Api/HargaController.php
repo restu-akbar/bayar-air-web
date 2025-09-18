@@ -17,6 +17,6 @@ class HargaController extends Controller
             return successResponse("Data harga air per kubik!", ["harga" => (int) $harga]);
         }
 
-        return errorResponse("Terjadi kesalahan saat menyimpan data");
+        return errorResponse("Harga per kubik dan biaya admin belum dibuat, silakan hubungi admin");
     }
 }
