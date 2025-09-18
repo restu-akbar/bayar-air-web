@@ -18,6 +18,7 @@ return new class extends Migration
 
             $table->integer('meter');
             $table->string('evidence');
+            $table->string('receipt');
             $table->bigInteger('total_amount');
             $table->bigInteger('fine')->default(0);
             $table->bigInteger('duty_stamp')->default(0);

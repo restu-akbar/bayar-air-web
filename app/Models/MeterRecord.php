@@ -14,6 +14,7 @@ class MeterRecord extends Model
         'user_id',
         'meter',
         'evidence',
+        'receipt',
         'total_amount',
         'fine',
         'duty_stamp',
