@@ -56,7 +56,7 @@ class LaporanController extends Controller
         }
     }
 
-    public function detail_popup($id) // here are the data
+    public function detail_popup($id)
     {
         $record = MeterRecord::with(['user', 'customer'])->findOrFail($id);
 
@@ -72,6 +72,8 @@ class LaporanController extends Controller
             'status'=> $record->status,
             'created_at' => $record->created_at->format('d-m-Y'),
             'evidence' => asset('storage/' . $record->evidence),
+            'receipt'  => $record->receipt ? asset('storage/' . $record->receipt) : null, // << tambahin ini
         ]);
     }
+
 }
