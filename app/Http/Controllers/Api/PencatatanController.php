@@ -28,7 +28,7 @@ class PencatatanController extends Controller
             $data['evidence'] = $request->file('evidence')->store('evidence', 'public');
             $data['evidence'] = $request->file('evidence')->store('evidence', 'public');
         }
-
+        $data['receipt'] = '';
         $pencatatan = MeterRecord::create($data);
         if (! $pencatatan) {
             return errorResponse("Terjadi kesalahan saat menyimpan data");
@@ -82,6 +82,8 @@ class PencatatanController extends Controller
 
         Storage::disk('public')->put($path, $pdf->output());
         $url = asset('storage/' . $path);
+
+        $pencatatan->update(['receipt' => $path]);
 
         return successResponse("Data berhasil disimpan!", [
             'pencatatan' => $pencatatan,
