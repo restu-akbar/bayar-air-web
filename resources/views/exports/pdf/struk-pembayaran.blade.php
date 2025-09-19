@@ -10,7 +10,7 @@
     <title>Struk Pembayaran</title>
     <style>
         @page {
-            size: 58mm 120mm;
+            size: 58mm 130mm;
             margin: 3mm 3mm 4mm;
         }
 

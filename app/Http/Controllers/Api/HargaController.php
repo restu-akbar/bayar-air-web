@@ -9,12 +9,10 @@ class HargaController extends Controller
 {
     public function index()
     {
-        $harga = SetPrice::query()
-            ->selectRaw('COALESCE(price,0) + COALESCE(admin_fee,0) AS total')
-            ->value('total');
+        $harga = SetPrice::first();
 
         if ($harga) {
-            return successResponse("Data harga air per kubik!", ["harga" => (int) $harga]);
+            return successResponse("Data harga layanan air", ["air" => (int) $harga->price, "admin" => (int) $harga->admin_fee]);
         }
 
         return errorResponse("Harga per kubik dan biaya admin belum dibuat, silakan hubungi admin");
