@@ -87,11 +87,6 @@
     <div id="pdf-section" class="my-3" style="display:none;">
     <h6 class="mb-2">Struk Pembayaran</h6>
     <iframe id="detail-pdf" src="" width="100%" height="500px" style="border:1px solid #ccc;"></iframe>
-    <div class="mt-2">{{--  memang masih belum --}}
-      <a id="download-pdf" href="#" class="btn btn-success btn-sm" download>
-        <i class="material-icons-outlined fs-6 align-middle">download</i> Download PDF(belum)
-      </a>
-    </div>
   </div>
   </div>
 </div>
