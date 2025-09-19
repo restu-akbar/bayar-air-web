@@ -1,4 +1,17 @@
 @extends('layouts.app')
+<script>
+    //public\assets\js\dashboard1.js di sini file chart nya (dari template)
+    
+    // Data tren pendapatan
+    var trendPendapatan = @json($trendPendapatan);
+    var bulanLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var pendapatanData = bulanLabels.map((_, i) => trendPendapatan[i+1] ?? 0);
+
+    // Data pembayaran bulan ini
+    var sudahBayar = {{ $sudahBayar }};
+    var belumBayar = {{ $belumBayar }};
+</script>
+
 
 <!--start main wrapper-->
 <main class="main-wrapper">
@@ -75,8 +88,8 @@
                             </div>
                             <div class="position-relative">
                                 <div class="piechart-legend">
-                                    <h2 class="mb-1">{{ $persenBayar }}</h2>
-                                    <h6 class="mb-0">dibayar</h6>
+                                    <h2 class="mb-1">{{ $persenBayar }}%</h2>
+                                    <h6 class="mb-0">di bayar</h6>
                                 </div>
                                 <div id="chart6"></div>
                             </div>

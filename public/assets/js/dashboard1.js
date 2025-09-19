@@ -316,30 +316,19 @@ chart.render();
 
     var options = {
         series: [{
-            name: "Desktops",
-            data: [14, 41, 35, 51, 25, 18, 21, 35, 15]
+            name: "Pendapatan",
+            data: typeof pendapatanData !== "undefined" ? pendapatanData : []
         }],
         chart: {
             foreColor: "#9ba7b2",
             height: 280,
             type: 'bar',
-            toolbar: {
-                show: !1
-            },
-            sparkline: {
-                enabled: !1
-            },
-            zoom: {
-                enabled: false
-            }
+            toolbar: { show: false },
+            sparkline: { enabled: false },
+            zoom: { enabled: false }
         },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            width: 1,
-            curve: 'smooth'
-        },
+        dataLabels: { enabled: false },
+        stroke: { width: 1, curve: 'smooth' },
         plotOptions: {
             bar: {
                 horizontal: false,
@@ -367,13 +356,11 @@ chart.render();
             borderColor: 'rgba(255, 255, 255, 0.1)',
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         },
         tooltip: {
             theme: "dark",
-            marker: {
-                show: !1
-            }
+            marker: { show: false }
         },
     };
 
@@ -384,49 +371,44 @@ chart.render();
 
     
     // chart 6
+
     var options = {
-        series: [58, 25, 25],
+        series: typeof sudahBayar !== "undefined" ? [sudahBayar, belumBayar] : [],
         chart: {
             height: 290,
             type: 'donut',
         },
+        labels: ['Sudah Bayar', 'Belum Bayar'],
         legend: {
             position: 'bottom',
-            show: !1
+            show: true
         },
         fill: {
             type: 'gradient',
             gradient: {
                 shade: 'dark',
-                gradientToColors: ['#ee0979', '#17ad37', '#ec6ead'],
+                gradientToColors: ['#17ad37', '#ee0979'], // hijau & merah
                 shadeIntensity: 1,
                 type: 'vertical',
                 opacityFrom: 1,
                 opacityTo: 1,
-                //stops: [0, 100, 100, 100]
             },
         },
-        colors: ["#ff6a00", "#98ec2d", "#3494e6"],
-        dataLabels: {
-            enabled: !1
-        },
+        colors: ["#98ec2d", "#ff6a00"], // hijau, oranye
+        dataLabels: { enabled: true },
         plotOptions: {
             pie: {
-                donut: {
-                    size: "85%"
-                }
+                donut: { size: "85%" }
             }
+        },
+        tooltip: {
+            theme: "dark",
         },
         responsive: [{
             breakpoint: 480,
             options: {
-                chart: {
-                    height: 270
-                },
-                legend: {
-                    position: 'bottom',
-                    show: !1
-                }
+                chart: { height: 270 },
+                legend: { position: 'bottom', show: true }
             }
         }]
     };

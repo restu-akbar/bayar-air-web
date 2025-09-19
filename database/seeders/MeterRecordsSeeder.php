@@ -27,6 +27,8 @@ class MeterRecordsSeeder extends Seeder
             'fine' => 0,
             'duty_stamp' => 6000,
             'retribution_fee' => 2000,
+            'status' => 'Belum bayar',
+            'receipt' => 'file.pdf'
         ]);
 
         MeterRecord::create([
@@ -39,6 +41,8 @@ class MeterRecordsSeeder extends Seeder
             'fine' => 5000,
             'duty_stamp' => 6000,
             'retribution_fee' => 3000,
+            'status' => 'Sudah bayar',
+            'receipt' => 'file.pdf'
         ]);
     }
 }
