@@ -18,11 +18,11 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($record) {
-            $record->created_at_formatted = Carbon::parse($record->created_at)
-                ->locale('nl')
-                ->translatedFormat('d F Y'); // 22 augustus 2025
-            return $record;
-        });
+                $record->created_at = Carbon::parse($record->created_at)
+                    ->locale('nl')
+                    ->translatedFormat('d F Y');
+                return $record;
+            });
             
         if ($records){
             return successResponse("History", $records, 201);
