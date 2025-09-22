@@ -32,6 +32,12 @@ class PencatatanController extends Controller
             ]);
         }
 
+        if ((int)$data['total_amount'] === 0) {
+            $data['fine']            = 0;
+            $data['duty_stamp']      = 0;
+            $data['retribution_fee'] = 0;
+        }
+
         $storedEvidencePath = null;
         $storedReceiptPath  = null;
 
@@ -63,6 +69,10 @@ class PencatatanController extends Controller
                 $price     = (float) ($set->price ?? 0);
                 $admin_fee = (float) ($set->admin_fee ?? 0);
 
+                if ((int)$data['total_amount'] === 0) {
+                    $admin_fee = 0;
+                }
+
                 $meter_lalu = MeterRecord::query()
                     ->where('customer_id', $pencatatan->customer_id)
                     ->whereBetween('created_at', [$startPrev, $endPrev])
@@ -74,11 +84,18 @@ class PencatatanController extends Controller
                 }
 
                 $meter_ini = (int)($pencatatan->meter ?? 0);
+
+                if ($meter_lalu > $meter_ini) {
+                    throw new \RuntimeException('Nilai meter yang diinputkan tidak boleh kurang dari meteran bulan lalu', 422);
+                }
+
                 $pakai     = max(0, $meter_ini - (int)$meter_lalu);
                 $materai     = (float) $request->input('duty_stamp', 0);
                 $retribusi   = (float) $request->input('retribution_fee', 0);
                 $denda       = (float) $request->input('fine', 0);
                 $admin_loket = auth()->user()->name ?? '-';
+                $pakai = max(0, (int)$meter_ini - (int)$meter_lalu);
+                $harga_air = $price * $pakai;
 
                 $mm_to_pt = 72 / 25.4;
                 $width_pt  = 58 * $mm_to_pt;
@@ -90,7 +107,7 @@ class PencatatanController extends Controller
                     'meter_lalu'  => $meter_lalu,
                     'meter_ini'   => $meter_ini,
                     'pakai'       => $pakai,
-                    'harga_air'   => $price,
+                    'harga_air'   => $harga_air,
                     'admin_fee'   => $admin_fee,
                     'materai'     => $materai,
                     'retribusi'   => $retribusi,
