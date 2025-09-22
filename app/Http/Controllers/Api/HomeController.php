@@ -15,7 +15,10 @@ class HomeController extends Controller
             ->where('user_id', $request->user()->id)
             ->orderBy('created_at', 'desc')
             ->get();
-
-        return response()->json($records);
+            
+        if ($records){
+            return successResponse("History", $records, 201);
+        }
+        return errorResponse("Tidak Ada History", 404);
     }
 }
