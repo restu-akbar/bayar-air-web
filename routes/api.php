@@ -17,7 +17,14 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/pencatatan', PencatatanController::class)->only(['index', 'store', 'update']);
     Route::apiResource('/profile', ProfileController::class)->only(['index']);
-    Route::get('/pelanggan', [PelangganController::class, 'index']);
+    Route::prefix('pelanggan')->group(function () {
+        Route::get('', [PelangganController::class, 'index']);
+        Route::get('hitung', [PelangganController::class, 'count']);
+    });
     Route::get('/harga', [HargaController::class, 'index']);
+    Route::prefix('statistik')->group(function () {
+        Route::get('pie-chart', [PencatatanController::class, 'getPieChart']);
+        Route::get('bar-chart', [PencatatanController::class, 'getBarChart']);
+    });
     Route::post('/logout', [AuthController::class, 'logout']);
 });

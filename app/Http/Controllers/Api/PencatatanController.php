@@ -185,4 +185,64 @@ class PencatatanController extends Controller
         $data = MeterRecord::find($id);
         return successResponse('Pencatatan berhasil diperbarui.', $data, 200);
     }
+
+    public function getPieChart(Request $request)
+    {
+        $bulan = (int) $request->query('bulan', now()->month);
+        $tahun = now()->year;
+
+        $userId = $request->user()->id;
+
+        $current = Carbon::createFromDate($tahun, $bulan, 1);
+        $previous = $current->copy()->subMonth();
+
+        $bulanIni = MeterRecord::query()
+            ->where('user_id', $userId)
+            ->whereMonth('created_at', $current->month)
+            ->whereYear('created_at', $current->year)
+            ->count();
+
+        $bulanSebelumnya = MeterRecord::query()
+            ->where('user_id', $userId)
+            ->whereMonth('created_at', $previous->month)
+            ->whereYear('created_at', $previous->year)
+            ->count();
+
+        if ($bulanSebelumnya > 0) {
+            $persentase = (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
+        } else {
+            $persentase = $bulanIni > 0 ? 100 : 0;
+        }
+
+        return successResponse("Data pencatatan per bulan", [
+            'bulan'               => $current->month,
+            'total'               => $bulanIni,
+            'persentase_kenaikan' => round($persentase, 2),
+        ]);
+    }
+
+    public function getBarChart(Request $request)
+    {
+        $tahun  = (int) $request->query('tahun', now()->year);
+        $userId = $request->user()->id;
+
+        $records = MeterRecord::query()
+            ->selectRaw('MONTH(created_at) as bulan, COUNT(*) as total')
+            ->where('user_id', $userId)
+            ->whereYear('created_at', $tahun)
+            ->groupBy(DB::raw('MONTH(created_at)'))
+            ->pluck('total', 'bulan');
+        $data = [];
+        foreach (range(1, 12) as $bulan) {
+            $data[] = [
+                'bulan' => Carbon::createFromDate(null, $bulan, 1)->translatedFormat('F'),
+                'total' => $records[$bulan] ?? 0,
+            ];
+        }
+
+        return successResponse("Data pencatatan per bulan pada tahun $tahun", [
+            'tahun' => $tahun,
+            'data'  => $data,
+        ]);
+    }
 }
