@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class MeterRecord extends Model
 {
@@ -24,7 +25,13 @@ class MeterRecord extends Model
 
     public function getReceiptAttribute($value)
     {
-        return url($value);
+        if (!$value) return null;
+
+        if (Str::startsWith($value, ['http://', 'https://'])) {
+            return $value;
+        }
+
+        return asset('storage/' . $value);
     }
 
     public function user()
