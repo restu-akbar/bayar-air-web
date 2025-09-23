@@ -22,6 +22,11 @@ class MeterRecord extends Model
         'status',
     ];
 
+    public function getReceiptAttribute($value)
+    {
+        return url($value);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
