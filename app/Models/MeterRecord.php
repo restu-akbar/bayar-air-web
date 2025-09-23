@@ -19,6 +19,7 @@ class MeterRecord extends Model
         'fine',
         'duty_stamp',
         'retribution_fee',
+        'status',
     ];
 
     public function user()

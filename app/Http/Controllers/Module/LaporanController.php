@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\module;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PencatatanUpdateRequest;
 use App\Models\MeterRecord;
+use App\Services\PencatatanService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class LaporanController extends Controller
 {
-    public function index(Request $request)
+    protected $service;
+    public function __construct()
+    {
+        $this->service = new PencatatanService;
+    }
+    public function index()
     {
         return view('module.laporan.index');
     }
@@ -23,7 +27,7 @@ class LaporanController extends Controller
         if ($request->ajax()) {
             $data = MeterRecord::with(['user', 'customer']);
 
-            // filter rentang waktu 
+            // filter rentang waktu
             if ($request->filled('start_date') && $request->filled('end_date')) {
                 $startDate = Carbon::parse($request->input('start_date'))->startOfDay();
                 $endDate   = Carbon::parse($request->input('end_date'))->endOfDay();
@@ -69,11 +73,21 @@ class LaporanController extends Controller
             'fine' => $record->fine,
             'duty_stamp' => $record->duty_stamp,
             'retribution_fee' => $record->retribution_fee,
-            'status'=> $record->status,
+            'status' => $record->status,
             'created_at' => $record->created_at->format('d-m-Y'),
             'evidence' => asset('storage/' . $record->evidence),
             'receipt'  => $record->receipt ? asset('storage/' . $record->receipt) : null, // << tambahin ini
         ]);
     }
 
+    public function update(PencatatanUpdateRequest $request, string $id)
+    {
+        $ok = $this->service->update($id, $request->validated());
+
+        if (!$ok) {
+            return back()->withErrors(['update' => 'Data tidak ditemukan atau gagal diperbarui.']);
+        }
+
+        return redirect()->route('module.laporan.laporan')->with('success', 'Data berhasil diperbarui.');
+    }
 }

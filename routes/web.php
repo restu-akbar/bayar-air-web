@@ -22,7 +22,7 @@ Route::middleware(['auth','admin'])->group(function () {
     // module/*
     Route::prefix('module')->group(function () {
         Route::prefix('laporan')->group(function () {
-            Route::resource('laporan', LaporanController::class)->only(['index']);
+            Route::resource('laporan', LaporanController::class)->only(['index', 'update']);
             Route::get('/laporan/{id}', [LaporanController::class, 'detail_popup'])->name('laporan.detail');
             Route::get('/index/data', [LaporanController::class, 'getData'])->name('laporan.data');
         });

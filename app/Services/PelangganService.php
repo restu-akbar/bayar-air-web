@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\Customer;
+use App\nModels\Customer;
 use App\Models\MeterRecord;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;

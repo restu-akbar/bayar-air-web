@@ -4,16 +4,44 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PencatatanStoreRequest;
+use App\Http\Requests\PencatatanUpdateRequest;
 use App\Models\MeterRecord;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SetPrice;
+use App\Services\PencatatanService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class PencatatanController extends Controller
 {
+    protected $service;
+    public function __construct()
+    {
+        $this->service = new PencatatanService;
+    }
+
+    public function index(Request $request)
+    {
+        $records = MeterRecord::with('customer')
+            ->where('user_id', $request->user()->id)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($record) {
+                $record->created_at_formatted = Carbon::parse($record->created_at)
+                    ->locale('nl')
+                    ->translatedFormat('d F Y');
+                return $record;
+            });
+
+
+        if ($records) {
+            return successResponse("History", $records, 201);
+        }
+        return errorResponse("Tidak Ada History", 404);
+    }
 
     public function store(PencatatanStoreRequest $request)
     {
@@ -144,5 +172,17 @@ class PencatatanController extends Controller
             }
             throw $e;
         }
+    }
+
+    public function update(PencatatanUpdateRequest $request, string $id)
+    {
+        $ok = $this->service->update($id, $request->validated());
+
+        if (!$ok) {
+            return errorResponse('Data tidak ditemukan atau gagal diperbarui.', 422);
+        }
+
+        $data = MeterRecord::find($id);
+        return successResponse('Pencatatan berhasil diperbarui.', $data, 200);
     }
 }
