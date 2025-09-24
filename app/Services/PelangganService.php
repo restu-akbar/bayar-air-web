@@ -36,10 +36,13 @@ class PelangganService
         }
 
         if ($request->expectsJson()) {
-            $thisStart = now()->startOfMonth();
-            $thisEnd   = now()->endOfMonth();
-            $start = now()->subMonthNoOverflow()->startOfMonth();
-            $end   = now()->subMonthNoOverflow()->endOfMonth();
+            $now = now();
+
+            $thisStart = $now->copy()->startOfMonth();
+            $thisEnd   = $now->copy()->endOfMonth();
+
+            $lastStart = $now->copy()->subMonthNoOverflow()->startOfMonth();
+            $lastEnd   = $now->copy()->subMonthNoOverflow()->endOfMonth();
 
             $customers = Customer::query()
                 ->select('customers.*')
@@ -47,10 +50,17 @@ class PelangganService
                     'meter_lalu' => MeterRecord::query()
                         ->select('meter')
                         ->whereColumn('meter_records.customer_id', 'customers.id')
-                        ->whereBetween('created_at', [$start, $end])
+                        ->whereBetween('created_at', [$lastStart, $lastEnd])
                         ->latest('created_at')
                         ->limit(1)
-                ])->whereNotExists(function ($q) use ($thisStart, $thisEnd) {
+                ])
+                ->whereExists(function ($q) use ($lastStart, $lastEnd) {
+                    $q->selectRaw(1)
+                        ->from('meter_records')
+                        ->whereColumn('meter_records.customer_id', 'customers.id')
+                        ->whereBetween('created_at', [$lastStart, $lastEnd]);
+                })
+                ->whereNotExists(function ($q) use ($thisStart, $thisEnd) {
                     $q->selectRaw(1)
                         ->from('meter_records')
                         ->whereColumn('meter_records.customer_id', 'customers.id')
