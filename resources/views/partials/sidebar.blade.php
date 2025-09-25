@@ -89,9 +89,8 @@
                     <div class="menu-title">Support</div>
                 </a>
             </li>
-        </ul>
-        <!--end navigation--> --}}
-            <li>
+            <!--end navigation--> --}}
+            {{-- <li>
                 <a href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <div class="parent-icon"><i class="material-icons-outlined">logout</i></div>
@@ -100,8 +99,8 @@
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
-            </li>
-
+            </li> --}}
+        </ul>
     </div>
 </aside>
 <!--end sidebar-->
