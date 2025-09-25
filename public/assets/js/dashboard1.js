@@ -311,7 +311,7 @@ chart.render();
 
 
 
-    
+
     // chart 5
 
     var options = {
@@ -369,7 +369,7 @@ chart.render();
 
 
 
-    
+
     // chart 6
 
     var options = {
@@ -381,7 +381,7 @@ chart.render();
         labels: ['Sudah Bayar', 'Belum Bayar'],
         legend: {
             position: 'bottom',
-            show: true
+            show: false
         },
         fill: {
             type: 'gradient',
@@ -395,7 +395,7 @@ chart.render();
             },
         },
         colors: ["#98ec2d", "#ff6a00"], // hijau, oranye
-        dataLabels: { enabled: true },
+        dataLabels: { enabled: false },
         plotOptions: {
             pie: {
                 donut: { size: "85%" }
