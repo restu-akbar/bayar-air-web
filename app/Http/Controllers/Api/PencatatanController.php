@@ -191,8 +191,7 @@ class PencatatanController extends Controller
         $bulan = (int) $request->query('bulan', now()->month);
         $tahun = now()->year;
 
-        $userId = $request->user()->id;
-
+        $userId  = $request->user()->id;
         $current = Carbon::createFromDate($tahun, $bulan, 1);
         $previous = $current->copy()->subMonth();
 
@@ -209,7 +208,9 @@ class PencatatanController extends Controller
             ->count();
 
         if ($bulanSebelumnya > 0) {
-            $persentase = (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
+            $persentase = ($bulanIni === 0)
+                ? 0
+                : (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
         } else {
             $persentase = $bulanIni > 0 ? 100 : 0;
         }
@@ -217,7 +218,7 @@ class PencatatanController extends Controller
         return successResponse("Data pencatatan per bulan", [
             'bulan'               => $current->month,
             'total'               => $bulanIni,
-            'persentase_kenaikan' => round($persentase, 2),
+            'persentase' => round($persentase, 2),
         ]);
     }
 
