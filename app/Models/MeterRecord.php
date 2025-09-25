@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log; 
 use Illuminate\Support\Str;
 
 class MeterRecord extends Model
@@ -27,11 +28,16 @@ class MeterRecord extends Model
     {
         if (!$value) return null;
 
-        if (Str::startsWith($value, ['http://', 'https://'])) {
-            return $value;
+        if (request()->is('api/*')) {
+            if (Str::startsWith($value, ['http://', 'https://'])) {
+                return $value;
+            }
+            Log::info("cek mobile".$value);
+            return asset('storage/' . $value);
         }
+        Log::info("cek url web ".$value);
 
-        return asset('storage/' . $value);
+        return $value;
     }
 
     public function user()
