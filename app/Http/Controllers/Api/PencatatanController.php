@@ -208,9 +208,7 @@ class PencatatanController extends Controller
             ->count();
 
         if ($bulanSebelumnya > 0) {
-            $persentase = ($bulanIni === 0)
-                ? 0
-                : (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
+            $persentase = (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
         } else {
             $persentase = $bulanIni > 0 ? 100 : 0;
         }
