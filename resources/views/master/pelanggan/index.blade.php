@@ -1,29 +1,25 @@
 @extends('layouts.app')
+
 @section('content')
 
 {{-- bread crumb --}}
-<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3 p-2">
-    <div class="breadcrumb-title pe-3 ms-4">Pelanggan</div>
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Pelanggan</div>
         <div class="ps-3 flex-grow-1">
-            <nav aria-label="breadcrumb">
-                {{-- <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Analysis</li>
-                </ol> --}}
-            </nav>
+            <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a href="/"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item"><a href="{{ route('master.pelanggan.index') }}">Pelanggan</a></li>
+                <li class="breadcrumb-item active" aria-current="page">List</li>
+            </ol>
         </div>
-    <a href="{{ route('pelanggan.create') }}" class="btn btn-primary">
+    <a href="{{ route('master.pelanggan.create') }}" class="btn btn-primary">
         <i class="bi bi-plus-lg"></i> Tambah Pelanggan
     </a>
 </div>
 
-<div class="card m-3">
+<div class="card">
     <div class="card-body">
-        <div class="d-flex justify-content-between mb-3">
-            <h5 class="card-title">Daftar Pelanggan</h5> 
-        </div>
-        <hr>
         <div class="table-responsive">
             <table id="pelanggan-table" class="table table-striped table-bordered" style="width:100%">
                 <thead>
@@ -43,10 +39,11 @@
 </div>
 @endsection
 
+@section('script')
 {{-- Script to load DataTables resources --}}
 <script>
     (function() {
-        console.log('Resource loader started');
+        // console.log('Resource loader started');
 
         // Load CSS jika hilang
         if (!document.querySelector('link[href*="datatables.net"]')) {
@@ -96,18 +93,18 @@
         $('#pelanggan-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('pelanggan.index') }}",
+            ajax: "{{ route('master.pelanggan.index') }}",
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false },
                 { data: 'name', name: 'name' },
                 { data: 'address', name: 'address' },
                 { data: 'phone_number', name: 'phone_number' },
-                { 
-                    data: null, 
+                {
+                    data: null,
                     render: function(data, type, row) {
                         return row.rt + '/' + row.rw;
-                    }, 
-                    orderable: false, 
+                    },
+                    orderable: false,
                     searchable: false
                 },
                 { data: 'created_at', name: 'created_at' },
@@ -116,3 +113,4 @@
         });
     });
 </script>
+@endsection

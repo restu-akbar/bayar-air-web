@@ -21,15 +21,23 @@ class PelangganService
                     return Carbon::parse($row->created_at)->format('d-m-Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('pelanggan.edit', $row->id);
-                    $deleteUrl = route('pelanggan.destroy', $row->id);
+                    $editUrl = route('master.pelanggan.edit', $row->id);
+                    $deleteUrl = route('master.pelanggan.destroy', $row->id);
+                    $showUrl = route('master.pelanggan.show', $row->id);
                     return '
-                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                    <div class="d-flex">
+                        <div>
+                            <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
+                        </div>
+                        <div>
+                            <a href="' . $showUrl . '" class="btn btn-sm btn-info mx-2">Detail</a>
+                        </div>
                         <form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this user?\');">
                             ' . csrf_field() . '
                             ' . method_field('DELETE') . '
                             <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>';
+                        </form>
+                    </div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

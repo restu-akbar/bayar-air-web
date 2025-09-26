@@ -34,6 +34,6 @@ class SettingController extends Controller
         $setting->fill($request->only(['price', 'admin_fee']))->save();
 
 
-        return redirect()->route('setting.index')->with('success', 'Setting berhasil disimpan.');
+        return redirect()->route('master.setting.index')->with('success', 'Setting berhasil disimpan.');
     }
 }

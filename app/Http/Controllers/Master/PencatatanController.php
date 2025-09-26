@@ -52,7 +52,7 @@ class PelangganController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('pelanggan.index')->with('success', 'Customer created successfully.');
+        return redirect()->route('master.pelanggan.index')->with('success', 'Customer created successfully.');
     }
 
     public function edit($id)
@@ -89,13 +89,13 @@ class PelangganController extends Controller
             'rw' => $request->rw,
         ]);
 
-        return redirect()->route('pelanggan.index')->with('success', 'Customer updated successfully.');
+        return redirect()->route('master.pelanggan.index')->with('success', 'Customer updated successfully.');
     }
 
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
-        return redirect()->route('pelanggan.index')->with('success', 'Customer deleted successfully.');
+        return redirect()->route('master.pelanggan.index')->with('success', 'Customer deleted successfully.');
     }
 }

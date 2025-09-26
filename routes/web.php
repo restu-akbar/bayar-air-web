@@ -13,7 +13,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('auth.login');
+    return redirect()->route('dashboard');
 });
 
 Route::middleware(['auth','admin'])->group(function () {
@@ -29,21 +29,10 @@ Route::middleware(['auth','admin'])->group(function () {
     });
 
     // master/*
-    Route::prefix('master')->group(function () {
-        Route::prefix('user')->group(function () {
-            Route::resource('user', UserController::class);
-
-            //extra ini untuk data pada tabel yajra
-            Route::get('/index/data', [UserController::class, 'getData'])->name('master.user.data');
-        });
-
-        // pelanggan
-        Route::resource('pelanggan', PelangganController::class)->except(['show']);
-
-        // setting
-        Route::prefix('setting')->group(function () {
-            Route::resource('setting', SettingController::class)->only(['index', 'store']);
-        });
+    Route::prefix('master')->name('master.')->group(function () {
+        Route::resource('user', UserController::class);
+        Route::resource('pelanggan', PelangganController::class);
+        Route::resource('setting', SettingController::class)->only(['index', 'store']);
     });
 
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
