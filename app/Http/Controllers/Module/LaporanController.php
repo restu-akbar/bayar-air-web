@@ -40,6 +40,10 @@ class LaporanController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn() // untuk nomor urut
+                ->editColumn('sstatus', function ($row) {
+                    return $row->status == 'sudah_bayar' ? '<span class="badge bg-success">Sudah Bayar</span>' :
+                        '<span class="badge bg-danger">Belum Bayar</span>';
+                })
                 ->editColumn('created_at', function ($row) {
                     return Carbon::parse($row->created_at)->format('d-m-Y');
                 })
