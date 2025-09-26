@@ -16,16 +16,13 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::middleware(['auth','admin'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified'])->name('dashboard');
 
     // module/*
     Route::prefix('module')->group(function () {
-        Route::prefix('laporan')->group(function () {
-            Route::resource('laporan', LaporanController::class)->only(['index', 'update']);
-            Route::get('/laporan/{id}', [LaporanController::class, 'detail_popup'])->name('laporan.detail');
-            Route::get('/index/data', [LaporanController::class, 'getData'])->name('laporan.data');
-        });
+        Route::resource('laporan', LaporanController::class)->only(['index', 'update']);
+        Route::get('/laporan/{id}', [LaporanController::class, 'detail_popup'])->name('laporan.detail');
     });
 
     // master/*

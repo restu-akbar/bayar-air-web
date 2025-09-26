@@ -17,12 +17,7 @@ class LaporanController extends Controller
     {
         $this->service = new PencatatanService;
     }
-    public function index()
-    {
-        return view('module.laporan.index');
-    }
-
-    public function getData(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
             $data = MeterRecord::with(['user', 'customer']);
@@ -58,6 +53,8 @@ class LaporanController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+
+        return view('module.laporan.index');
     }
 
     public function detail_popup($id)

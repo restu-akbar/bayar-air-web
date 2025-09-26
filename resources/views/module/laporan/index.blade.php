@@ -174,7 +174,7 @@
         processing: true,
         serverSide: true,
          ajax: {
-            url: "{{ route('laporan.data') }}",
+            url: "{{ route('laporan.index') }}",
             data: function (d) {
                 d.start_date = $('#start-date').val();
                 d.end_date   = $('#end-date').val();
