@@ -25,22 +25,28 @@ class PencatatanController extends Controller
 
     public function index(Request $request)
     {
-        $records = MeterRecord::with('customer')
-            ->where('user_id', $request->user()->id)
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($record) {
-                $record->created_at_formatted = Carbon::parse($record->created_at)
-                    ->locale('nl')
-                    ->translatedFormat('d F Y');
-                return $record;
+        $userId = $request->user()->id;
+        $nama   = $request->query('name');
+
+        $query = MeterRecord::with('customer')
+            ->where('user_id', $userId)
+            ->orderByDesc('created_at')
+            ->orderByDesc('id');
+
+        if ($nama) {
+            $query->whereHas('customer', function ($q) use ($nama) {
+                $q->where('name', 'like', '%' . $nama . '%');
             });
-
-
-        if ($records) {
-            return successResponse("History", $records, 201);
         }
-        return errorResponse("Tidak Ada History", 404);
+
+        $records = $query->get()->map(function ($record) {
+            $record->created_at_formatted = Carbon::parse($record->created_at)
+                ->locale('id')
+                ->translatedFormat('d F Y');
+            return $record;
+        });
+
+        return successResponse('History', $records);
     }
 
     public function store(PencatatanStoreRequest $request)
