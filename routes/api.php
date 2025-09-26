@@ -16,7 +16,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/pencatatan', PencatatanController::class)->only(['index', 'store', 'update']);
-    Route::apiResource('/profile', ProfileController::class)->only(['index']);
+    Route::apiResource('/profile', ProfileController::class)->only(['index', 'update']);
     Route::prefix('pelanggan')->group(function () {
         Route::get('', [PelangganController::class, 'index']);
         Route::get('hitung', [PelangganController::class, 'count']);
