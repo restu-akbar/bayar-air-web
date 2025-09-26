@@ -3,7 +3,7 @@
 
 {{-- bread crumb --}}
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3 p-2">
-    <div class="breadcrumb-title pe-3 ms-4">User</div>
+    <div class="breadcrumb-title pe-3">User</div>
         <div class="ps-3 flex-grow-1">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -15,11 +15,11 @@
         </div>
     </div>
 
-<div class="card m-3">
+<div class="card">
     <div class="card p-2">
         <div class="card-body p-4">
             <h5 class="mb-4">Form pembuatan user</h5>
-            <form action="{{ route('user.store') }}" method="POST">
+            <form action="{{ route('master.user.store') }}" method="POST">
                 @csrf
                 <div class="row mb-3">
                     <label for="name" class="col-sm-3 col-form-label">Masukan nama</label>
@@ -100,7 +100,7 @@
                         <div class="d-md-flex d-grid align-items-center gap-3">
                             <button type="submit" class="btn btn-primary px-4">Submit</button>
                             <button type="reset" class="btn btn-secondary px-4">Reset</button>
-                            <a href="{{ route('user.index') }}" class="btn px-4">Cancel</a>
+                            <a href="{{ route('master.user.index') }}" class="btn px-4">Cancel</a>
                         </div>
                     </div>
                 </div>

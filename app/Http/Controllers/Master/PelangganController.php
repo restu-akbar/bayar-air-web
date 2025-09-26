@@ -23,33 +23,6 @@ class PelangganController extends Controller
         return $this->service->index($request);
     }
 
-    // ini maksud nya get data untuk tabel index nya
-    public function getData(Request $request)
-    {
-        if ($request->ajax()) {
-            $data = Customer::select(['id', 'name', 'address', 'phone_number', 'rt', 'rw', 'created_at']);
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->editColumn('created_at', function ($row) {
-                    return Carbon::parse($row->created_at)->format('d-m-Y');
-                })
-                ->addColumn('action', function ($row) {
-                    $editUrl = route('pelanggan.edit', $row->id);
-                    $deleteUrl = route('pelanggan.destroy', $row->id);
-                    return '
-                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
-                        <form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this user?\');">
-                            ' . csrf_field() . '
-                            ' . method_field('DELETE') . '
-                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                        </form>';
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-    }
-
     public function create()
     {
         return view('master.pelanggan.create');
@@ -82,7 +55,13 @@ class PelangganController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('pelanggan.index')->with('success', 'Customer created successfully.');
+        return redirect()->route('master.pelanggan.index')->with('success', 'Customer created successfully.');
+    }
+
+    public function show($id)
+    {
+        $customer = Customer::findOrFail($id);
+        return view('master.pelanggan.show', compact('customer'));
     }
 
     public function edit($id)
@@ -119,13 +98,13 @@ class PelangganController extends Controller
             'rw' => $request->rw,
         ]);
 
-        return redirect()->route('pelanggan.index')->with('success', 'Customer updated successfully.');
+        return redirect()->route('master.pelanggan.index')->with('success', 'Customer updated successfully.');
     }
 
     public function destroy($id)
     {
         $customer = Customer::findOrFail($id);
         $customer->delete();
-        return redirect()->route('pelanggan.index')->with('success', 'Customer deleted successfully.');
+        return redirect()->route('master.pelanggan.index')->with('success', 'Customer deleted successfully.');
     }
 }

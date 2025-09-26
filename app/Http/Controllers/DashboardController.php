@@ -24,7 +24,7 @@ class DashboardController extends Controller
 
         $sudahBayar = MeterRecord::whereYear('created_at', $tahunIni)
             ->whereMonth('created_at', $bulanIni)
-            ->where('status', 'Sudah bayar')
+            ->where('status', 'sudah_bayar')
             ->count();
 
         $belumBayar = $totalTagihan - $sudahBayar;

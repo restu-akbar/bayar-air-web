@@ -2,44 +2,40 @@
 @section('content')
 
 {{-- bread crumb --}}
-<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3 p-2">
-    <div class="breadcrumb-title pe-3 ms-4">Laporan</div>
-        <div class="ps-3 flex-grow-1">
-            <nav aria-label="breadcrumb">
-                {{-- <ol class="breadcrumb mb-0 p-0">
-                    <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">Analysis</li>
-                </ol> --}}
-            </nav>
-        </div>
+<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+    <div class="breadcrumb-title pe-3">Laporan</div>
+    <div class="ps-3 flex-grow-1">
+        <nav aria-label="breadcrumb">
+            {{-- <ol class="breadcrumb mb-0 p-0">
+                <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">Analysis</li>
+            </ol> --}}
+        </nav>
+    </div>
 </div>
 
-    <div class="card m-3">
-        <div class="card-body">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
-                <h5 class="card-title">Daftar Pencatatan</h5>
-                <!-- Filter Section -->
-                <div class="d-flex flex-wrap align-items-center gap-2">
-                    <label class="form-label mb-0 me-2">Filter Waktu:</label>
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+            <h3 class="mb-0"><i class="bx bx-filter"></i></h3>
+            <!-- Filter Section -->
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <div class="input-group">
+                    <input type="date" id="start-date" class="form-control">
+                    <span class="input-group-text">s/d</span>
+                    <input type="date" id="end-date" class="form-control">
+                    <button id="apply-date-filter" class="btn btn-primary btn-sm">
+                        <i class="material-icons-outlined" style="font-size:16px;">filter_alt</i> Terapkan
+                    </button>
 
-                    <div class="input-group">
-                        <input type="date" id="start-date" class="form-control">
-                        <span class="input-group-text">s/d</span>
-                        <input type="date" id="end-date" class="form-control">
-                        <button id="apply-date-filter" class="btn btn-primary btn-sm">
-                            <i class="material-icons-outlined" style="font-size:16px;">filter_alt</i> Terapkan
-                        </button>
-
-                        <button id="reset-date-filter" class="btn btn-outline-secondary btn-sm">
-                            <i class="material-icons-outlined" style="font-size:16px;">refresh</i> Reset
-                        </button>
-                    </div>
-
-
+                    <button id="reset-date-filter" class="btn btn-outline-secondary btn-sm">
+                        <i class="material-icons-outlined" style="font-size:16px;">refresh</i> Reset
+                    </button>
                 </div>
             </div>
-            <hr>
+        </div>
+        <hr>
         <div class="table-responsive">
             <table id="user-table" class="table table-striped table-bordered" style="width:100%">
                 <thead>
@@ -61,38 +57,67 @@
 
 <!-- Detail Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Detail Pencatatan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <table class="table table-bordered">
-          <tr><th>Nama Pelanggan</th><td id="detail-customer"></td></tr>
-          <tr><th>Nama Pencatat</th><td id="detail-user"></td></tr>
-          <tr><th>Meter</th><td id="detail-meter"></td></tr>
-          <tr><th>Total Pembayaran</th><td id="detail-total"></td></tr>
-          <tr><th>Denda</th><td id="detail-fine"></td></tr>
-          <tr><th>Materai</th><td id="detail-duty"></td></tr>
-          <tr><th>Retribusi</th><td id="detail-retribution"></td></tr>
-          <tr><th>Status pembayaran</th><td id="detail-status"></td></tr>
-          <tr><th>Tanggal di catat</th><td id="detail-date"></td></tr>
-        </table>
-        <div class="text-center">
-          <img id="detail-evidence" src="" alt="Bukti Foto" class="img-fluid rounded"  style="max-width: 500px; max-height: 400px; object-fit: contain;">>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Pencatatan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Nama Pelanggan</th>
+                        <td id="detail-customer"></td>
+                    </tr>
+                    <tr>
+                        <th>Nama Pencatat</th>
+                        <td id="detail-user"></td>
+                    </tr>
+                    <tr>
+                        <th>Meter</th>
+                        <td id="detail-meter"></td>
+                    </tr>
+                    <tr>
+                        <th>Total Pembayaran</th>
+                        <td id="detail-total"></td>
+                    </tr>
+                    <tr>
+                        <th>Denda</th>
+                        <td id="detail-fine"></td>
+                    </tr>
+                    <tr>
+                        <th>Materai</th>
+                        <td id="detail-duty"></td>
+                    </tr>
+                    <tr>
+                        <th>Retribusi</th>
+                        <td id="detail-retribution"></td>
+                    </tr>
+                    <tr>
+                        <th>Status pembayaran</th>
+                        <td id="detail-status"></td>
+                    </tr>
+                    <tr>
+                        <th>Tanggal di catat</th>
+                        <td id="detail-date"></td>
+                    </tr>
+                </table>
+                <div class="text-center">
+                    <img id="detail-evidence" src="" alt="Bukti Foto" class="img-fluid rounded"
+                        style="max-width: 500px; max-height: 400px; object-fit: contain;">
+                </div>
+            </div>
         </div>
-      </div>
+        <div id="pdf-section" class="my-3" style="display:none;">
+            <h6 class="mb-2">Struk Pembayaran</h6>
+            <iframe id="detail-pdf" src="" width="100%" height="500px" style="border:1px solid #ccc;"></iframe>
+        </div>
     </div>
-    <div id="pdf-section" class="my-3" style="display:none;">
-    <h6 class="mb-2">Struk Pembayaran</h6>
-    <iframe id="detail-pdf" src="" width="100%" height="500px" style="border:1px solid #ccc;"></iframe>
-  </div>
-  </div>
 </div>
 
 @endsection
 
+@section('script')
 {{-- Script to load DataTables resources --}}
 <script>
     (function() {
@@ -142,7 +167,7 @@
 
 {{-- Script to initialize the table --}}
 <script>
-document.addEventListener('DataTablesReady', function() {
+    document.addEventListener('DataTablesReady', function() {
     console.log('Init DataTable...');
 
     let table = $('#user-table').DataTable({
@@ -151,8 +176,8 @@ document.addEventListener('DataTablesReady', function() {
          ajax: {
             url: "{{ route('laporan.data') }}",
             data: function (d) {
-                d.start_date = $('#start-date').val(); 
-                d.end_date   = $('#end-date').val();   
+                d.start_date = $('#start-date').val();
+                d.end_date   = $('#end-date').val();
             }
         },
         columns: [
@@ -209,6 +234,4 @@ document.addEventListener('DataTablesReady', function() {
     });
 });
 </script>
-
-
-
+@endsection

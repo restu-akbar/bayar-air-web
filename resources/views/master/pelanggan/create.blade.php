@@ -2,7 +2,7 @@
 @section('content')
 {{-- bread crumb --}}
 <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3 p-2">
-    <div class="breadcrumb-title pe-3 ms-4">Pelanggan</div>
+    <div class="breadcrumb-title pe-3">Pelanggan</div>
         <div class="ps-3 flex-grow-1">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 p-0">
@@ -14,11 +14,11 @@
         </div>
     </div>
 
-<div class="card m-3">
+<div class="card">
     <div class="card p-2">
         <div class="card-body p-4">
             <h5 class="mb-4">Form Tambah Pelanggan</h5>
-            <form action="{{ route('pelanggan.store') }}" method="POST">
+            <form action="{{ route('master.pelanggan.store') }}" method="POST">
                 @csrf
 
                 {{-- Nama --}}
@@ -86,7 +86,7 @@
                         <div class="d-flex gap-2">
                             <button type="submit" class="btn btn-primary px-4">Simpan</button>
                             <button type="reset" class="btn btn-secondary px-4">Reset</button>
-                            <a href="{{ route('pelanggan.index') }}" class="btn btn-light px-4">Batal</a>
+                            <a href="{{ route('master.pelanggan.index') }}" class="btn btn-light px-4">Batal</a>
                         </div>
                     </div>
                 </div>

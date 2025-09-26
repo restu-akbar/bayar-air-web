@@ -13,16 +13,10 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        return view('master.user.index');
-    }
-
-    // ini maksud nya get data untuk tabel index nya
-    public function getData(Request $request)
+    public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = User::select(['id','name','username','email','phone_number','role_name','created_at']);
+            $data = User::select(['id', 'name', 'username', 'email', 'phone_number', 'role_name', 'created_at']);
 
             return DataTables::of($data)
                 ->addIndexColumn() // untuk nomor urut
@@ -30,10 +24,10 @@ class UserController extends Controller
                     return Carbon::parse($row->created_at)->format('d-m-Y');
                 })
                 ->addColumn('action', function ($row) {
-                    $editUrl = route('user.edit', $row->id);
-                    $deleteUrl = route('user.destroy', $row->id);
+                    $editUrl = route('master.user.edit', $row->id);
+                    $deleteUrl = route('master.user.destroy', $row->id);
                     return '
-                        <a href="' . $editUrl . '" class="btn btn-sm btn-primary">Edit</a>
+                        <a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>
                         <form action="' . $deleteUrl . '" method="POST" style="display:inline;" onsubmit="return confirm(\'Are you sure you want to delete this user?\');">
                             ' . csrf_field() . '
                             ' . method_field('DELETE') . '
@@ -43,6 +37,8 @@ class UserController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
+
+        return view('master.user.index');
     }
 
     public function create()
@@ -79,7 +75,7 @@ class UserController extends Controller
         ]);
 
         // Redirect with success message
-        return redirect()->route('user.index')->with('success', 'User created successfully.');
+        return redirect()->route('master.user.index')->with('success', 'User created successfully.');
     }
 
     public function edit($id)
@@ -116,18 +112,16 @@ class UserController extends Controller
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
 
-        return redirect()->route('user.index')->with('success', 'User updated successfully.');
+        return redirect()->route('master.user.index')->with('success', 'User updated successfully.');
     }
 
     public function destroy($id)
     {
         $user = User::findOrFail($id);
         if ($user->id === Auth::user()->id) {
-            return redirect()->route('user.index')->with('error', 'Tidak bisa delete akun sendiri.');
+            return redirect()->route('master.user.index')->with('error', 'Tidak bisa delete akun sendiri.');
         }
         $user->delete();
-        return redirect()->route('user.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('master.user.index')->with('success', 'User deleted successfully.');
     }
-
-
 }

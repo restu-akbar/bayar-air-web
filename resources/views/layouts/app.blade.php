@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="blue-theme">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +29,7 @@
     <link href="{{ asset('sass/bordered-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('sass/responsive.css') }}" rel="stylesheet">
 </head>
+
 <body>
     <!-- start header -->
     @include('partials.header')
@@ -39,7 +41,9 @@
 
     <!-- start main content -->
     <div class="main-wrapper">
-        @yield('content')
+        <div style="padding:1.5rem;">
+            @yield('content')
+        </div>
     </div>
     <!-- end main content -->
 
@@ -49,7 +53,7 @@
 
     <!-- start footer -->
     <footer class="page-footer">
-        <p class="mb-0">Copyright © {{ date('Y') }}. All right reserved.</p>
+        <p class="mb-0">PTI Copyright ©{{ date('Y') }}. All right reserved.</p>
     </footer>
     <!-- end footer -->
 
@@ -70,7 +74,8 @@
         new PerfectScrollbar(".user-list");
     </script> --}}
     <script src="{{ asset('assets/js/main.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard1.js') }}"></script>
+
     @yield('script')
 </body>
+
 </html>

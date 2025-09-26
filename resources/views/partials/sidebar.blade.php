@@ -34,19 +34,19 @@
             <!--Master-->
             <li class="menu-label">Master</li>
             <li>
-                <a href="{{ route('pelanggan.index') }}">
+                <a href="{{ route('master.pelanggan.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">person</i></div>
                     <div class="menu-title">Pelanggan</div>
                 </a>
             </li>
             <li>
-                <a href="{{ route('user.index') }}">
+                <a href="{{ route('master.user.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">person_add</i></div>
                     <div class="menu-title">User</div>
                 </a>
             </li>
             <li>
-                <a href="{{ route('setting.index') }}">
+                <a href="{{ route('master.setting.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">settings</i></div>
                     <div class="menu-title">Settings</div>
                 </a>
