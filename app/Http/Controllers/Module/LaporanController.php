@@ -40,7 +40,7 @@ class LaporanController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn() // untuk nomor urut
-                ->editColumn('sstatus', function ($row) {
+                ->editColumn('status', function ($row) {
                     return $row->status == 'sudah_bayar' ? '<span class="badge bg-success">Sudah Bayar</span>' :
                         '<span class="badge bg-danger">Belum Bayar</span>';
                 })
@@ -54,7 +54,7 @@ class LaporanController extends Controller
                             <i class="material-icons-outlined fs-6 align-middle">search</i> Detail
                         </button>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->make(true);
         }
 
