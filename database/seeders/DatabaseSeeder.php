@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             CustomersSeeder::class,
             UsersSeeder::class,
             MeterRecordsSeeder::class,
+            //CustomSeeder::class, 
         ]);
     }
 }
