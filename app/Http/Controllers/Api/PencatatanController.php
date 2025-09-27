@@ -143,7 +143,7 @@ class PencatatanController extends Controller
                 }
                 $storedReceiptPath = $path;
                 $pencatatan->update(['receipt' => $path]);
-                return $pencatatan->fresh();
+                return $pencatatan->fresh(['customer']);
             });
 
             return successResponse("Data berhasil disimpan!", $result, 201);
