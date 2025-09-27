@@ -58,10 +58,12 @@ class PelangganController extends Controller
         return redirect()->route('master.pelanggan.index')->with('success', 'Customer created successfully.');
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $customer = Customer::findOrFail($id);
-        return view('master.pelanggan.show', compact('customer'));
+        $recap = $this->service->getMeterPerBulan($id, $request->get('tahun', date('Y')));
+
+        return view('master.pelanggan.show', compact('customer', 'recap'));
     }
 
     public function edit($id)

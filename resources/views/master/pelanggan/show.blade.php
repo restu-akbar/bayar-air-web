@@ -28,160 +28,230 @@
                     <p class="text-center">{{$customer->address}}</p>
                 </div>
                 <div class="col-md-9">
-                    <select class="form-control">
-                        @for ($i=date('Y'); $i >= 2024; $i--)
-                            <option value="{{ $i }}">{{$i}}</option>
-                        @endfor
-                    </select>
+                    <form method="GET" action="">
+                        <select class="form-control" onchange="this.form.submit()" name="tahun">
+                            @for ($i=date('Y'); $i >= 2024; $i--)
+                            <option value="{{ $i }}" {{ request()->get('tahun', date('Y')) == $i ? 'selected' : '' }}>
+                                {{ $i }}</option>
+                            @endfor
+                        </select>
+                    </form>
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>Bulan</th>
-                                    <th>Meteran</th>
-                                    <th>Selisih Bulan Lalu</th>
-                                    <th>Status Pembayaran</th>
-                                    <th>Tagihan (Rp)</th>
+                                    <th class="text-center">Bulan</th>
+                                    <th class="text-center">Meteran (M<sup>3</sup>)</th>
+                                    <th class="text-center">Pemakaian (M<sup>3</sup>)</th>
+                                    <th class="text-center">Status Pembayaran</th>
+                                    <th class="text-center">Tagihan (Rp)</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @if($recap)
                                 <tr>
                                     <th>Januari</th>
-                                    <td>1.000</td>
-                                    <td>1.000</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_jan, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_jan, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_jan == 'sudah_bayar')
                                         <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
+                                        <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_jan, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Februari</th>
-                                    <td>1.200</td>
-                                    <td>200</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_feb, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_feb, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_feb == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_feb, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Maret</th>
-                                    <td>1.300</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_mar, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_mar, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_mar == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_mar, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>April</th>
-                                    <td>1.400</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_apr, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_apr, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_apr == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_apr, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Mei</th>
-                                    <td>1.500</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_mei, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_mei, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_mei == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_mei, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Juni</th>
-                                    <td>1.600</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_jun, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_jun, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_jun == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_jun, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Juli</th>
-                                    <td>1.700</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_jul, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_jul, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_jul == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_jul, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Agustus</th>
-                                    <td>1.800</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_agu, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_agu, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_agu == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_agu, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>September</th>
-                                    <td>1.900</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_sep, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_sep, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_sep == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_sep, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Oktober</th>
-                                    <td>2.000</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_okt, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_okt, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_okt == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_okt, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>November</th>
-                                    <td>2.100</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_nov, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_nov, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_nov == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
-                                    </td>
+                                    <td class="text-end">{{ number_format($recap?->bayar_nov, 0, ',', '.') }}</td>
                                 </tr>
                                 <tr>
                                     <th>Desember</th>
-                                    <td>2.200</td>
-                                    <td>100</td>
-                                    <td>
+                                    <td class="text-end">{{ number_format($recap?->meter_des, 0, ',', '.') }}</td>
+                                    <td class="text-end">{{ number_format($recap?->pakai_des, 0, ',', '.') }}</td>
+                                    <td class="text-center">
+                                        @if($recap?->status_des == 'sudah_bayar')
+                                        <span class="badge bg-success">Sudah Bayar</span>
+                                        @else
                                         <span class="badge bg-danger">Belum Bayar</span>
+                                        @endif
                                     </td>
-                                    <td>
-                                        1.200.000
+                                    <td class="text-end">{{ number_format($recap?->bayar_des, 0, ',', '.') }}</td>
+                                </tr>
+                                @else
+                                <tr>
+                                    <td colspan="5">
+                                        Tidak Ada Data
                                     </td>
                                 </tr>
+                                @endif
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="4" class="text-center">Total</th>
-                                    <th>2.000.000</th>
+                                    <th>Total</th>
+                                    <td class="text-end">{{ number_format($recap?->meter_des ?? 0, 0, ',', '.') }}</td>
+                                    <td class="text-end">
+                                        {{ number_format(
+                                        ($recap?->pakai_jan ?? 0) +
+                                        ($recap?->pakai_feb ?? 0) +
+                                        ($recap?->pakai_mar ?? 0) +
+                                        ($recap?->pakai_apr ?? 0) +
+                                        ($recap?->pakai_mei ?? 0) +
+                                        ($recap?->pakai_jun ?? 0) +
+                                        ($recap?->pakai_jul ?? 0) +
+                                        ($recap?->pakai_agu ?? 0) +
+                                        ($recap?->pakai_sep ?? 0) +
+                                        ($recap?->pakai_okt ?? 0) +
+                                        ($recap?->pakai_nov ?? 0) +
+                                        ($recap?->pakai_des ?? 0),
+                                        0, ',', '.'
+                                        ) }}
+                                    </td>
+                                    <td>-</td>
+                                    <td class="text-end">
+                                        {{ number_format(
+                                        ($recap?->bayar_jan ?? 0) +
+                                        ($recap?->bayar_feb ?? 0) +
+                                        ($recap?->bayar_mar ?? 0) +
+                                        ($recap?->bayar_apr ?? 0) +
+                                        ($recap?->bayar_mei ?? 0) +
+                                        ($recap?->bayar_jun ?? 0) +
+                                        ($recap?->bayar_jul ?? 0) +
+                                        ($recap?->bayar_agu ?? 0) +
+                                        ($recap?->bayar_sep ?? 0) +
+                                        ($recap?->bayar_okt ?? 0) +
+                                        ($recap?->bayar_nov ?? 0) +
+                                        ($recap?->bayar_des ?? 0),
+                                        0, ',', '.'
+                                        ) }}
+                                    </td>
                                 </tr>
                             </tfoot>
                         </table>
