@@ -86,14 +86,12 @@ class PencatatanController extends Controller
 
             $data['receipt'] = '';
             $result = DB::transaction(function () use ($data, $request, $tglInput, &$storedReceiptPath) {
+                $meter_lalu = $data['meter_lalu'];
+                unset($data['meter_lalu']);
                 $pencatatan = MeterRecord::create($data);
                 $customer = $pencatatan->customer;
 
                 $periode = $tglInput->copy()->startOfMonth();
-
-                $startPrev = $tglInput->copy()->subMonthNoOverflow()->startOfMonth();
-                $endPrev   = $tglInput->copy()->subMonthNoOverflow()->endOfMonth();
-
 
                 $set = SetPrice::selectRaw('COALESCE(price,0) AS price, COALESCE(admin_fee,0) AS admin_fee')->first();
 
@@ -107,28 +105,14 @@ class PencatatanController extends Controller
                     $admin_fee = 0;
                 }
 
-                $meter_lalu = MeterRecord::query()
-                    ->where('customer_id', $pencatatan->customer_id)
-                    ->whereBetween('created_at', [$startPrev, $endPrev])
-                    ->orderByDesc('created_at')
-                    ->value('meter');
-
-                if ($meter_lalu === null) {
-                    throw new \RuntimeException('Data meteran bulan lalu untuk pelanggan ini tidak ditemukan! Hubungi admin', 422);
-                }
 
                 $meter_ini = (int)($pencatatan->meter ?? 0);
 
-                if ($meter_lalu > $meter_ini) {
-                    throw new \RuntimeException('Nilai meter yang diinputkan tidak boleh kurang dari meteran bulan lalu', 422);
-                }
-
-                $pakai     = max(0, $meter_ini - (int)$meter_lalu);
+                $pakai     = (int)($pencatatan->usage ?? 0);
                 $materai     = (float) $request->input('duty_stamp', 0);
                 $retribusi   = (float) $request->input('retribution_fee', 0);
                 $denda       = (float) $request->input('fine', 0);
                 $admin_loket = auth()->user()->name ?? '-';
-                $pakai = max(0, (int)$meter_ini - (int)$meter_lalu);
                 $harga_air = $price * $pakai;
 
                 $mm_to_pt = 72 / 25.4;
