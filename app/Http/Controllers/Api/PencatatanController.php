@@ -118,6 +118,7 @@ class PencatatanController extends Controller
                 //     unset($data['meter_lalu']);
                 // }
 
+                $data['usage'] = (int)($data['meter'] - $customer?->meter_lalu);
                 $pencatatan = MeterRecord::create($data);
                 $customer = $pencatatan->customer;
 
