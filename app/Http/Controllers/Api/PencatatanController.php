@@ -111,7 +111,7 @@ class PencatatanController extends Controller
                             ->whereBetween('created_at', [$thisStart, $thisEnd]);
                     })
                     ->first();
-                $meter_lalu = $customer?->meter_lalu;
+                $meter_lalu = $data['meter_lalu'] ?? $customer?->meter_lalu;
 
                 // $meter_lalu = array_key_exists('meter_lalu', $data) ? $data['meter_lalu'] : 0;
                 // if (array_key_exists('meter_lalu', $data)) {
