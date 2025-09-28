@@ -86,8 +86,10 @@ class PencatatanController extends Controller
 
             $data['receipt'] = '';
             $result = DB::transaction(function () use ($data, $request, $tglInput, &$storedReceiptPath) {
-                $meter_lalu = $data['meter_lalu'];
-                unset($data['meter_lalu']);
+                $meter_lalu = array_key_exists('meter_lalu', $data) ? $data['meter_lalu'] : 0;
+                if(array_key_exists('meter_lalu', $data)){
+                    unset($data['meter_lalu']);
+                }
                 $pencatatan = MeterRecord::create($data);
                 $customer = $pencatatan->customer;
 

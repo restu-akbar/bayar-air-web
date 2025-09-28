@@ -24,7 +24,7 @@ class PencatatanStoreRequest extends FormRequest
         return [
             'customer_id'    => 'required|string|exists:customers,id',
             'meter'          => 'required|integer|min:0',
-            'meter_lalu'     => 'required|integer|min:0',
+            'meter_lalu'     => 'nullable|integer|min:0',
             'usage'          => 'required|integer|min:0',
             'evidence'       => 'required|file|mimes:jpg,jpeg,png|max:2048',
             'total_amount'   => 'required|integer|min:0',
