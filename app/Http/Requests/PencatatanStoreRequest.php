@@ -23,11 +23,9 @@ class PencatatanStoreRequest extends FormRequest
     {
         return [
             'customer_id'    => 'required|string|exists:customers,id',
-            'meter'          => 'required|integer|min:0',
-            'meter_lalu'     => 'nullable|integer|min:0',
-            'usage'          => 'nullable|integer|min:0',
+            'meter'          => 'required|integer|min:0|gte:meter_lalu',
+            'meter_lalu'     => 'required|integer|min:0',
             'evidence'       => 'required|file|mimes:jpg,jpeg,png|max:2048',
-            'total_amount'   => 'required|integer|min:0',
             'fine'           => 'nullable|integer|min:0',
             'duty_stamp'     => 'nullable|integer|min:0',
             'retribution_fee' => 'nullable|integer|min:0',
@@ -39,10 +37,8 @@ class PencatatanStoreRequest extends FormRequest
         return [
             'customer_id'     => 'pelanggan',
             'meter'           => 'angka meteran',
-            'meter'           => 'meteran bulan lalu',
-            'usage'           => 'pemakaian',
+            'meter_lalu'      => 'meteran bulan lalu',
             'evidence'        => 'bukti meteran',
-            'total_amount'    => 'total harga',
             'fine'            => 'denda',
             'duty_stamp'      => 'bea materai',
             'retribution_fee' => 'retribusi',

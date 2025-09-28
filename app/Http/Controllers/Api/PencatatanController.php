@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PencatatanStoreRequest;
 use App\Http\Requests\PencatatanUpdateRequest;
-use App\Models\Customer;
 use App\Models\MeterRecord;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SetPrice;
@@ -67,11 +66,6 @@ class PencatatanController extends Controller
             ]);
         }
 
-        if ((int)$data['total_amount'] === 0) {
-            $data['fine']            = 0;
-            $data['duty_stamp']      = 0;
-            $data['retribution_fee'] = 0;
-        }
 
         $storedEvidencePath = null;
         $storedReceiptPath  = null;
@@ -86,42 +80,7 @@ class PencatatanController extends Controller
             }
 
             $data['receipt'] = '';
-            $result = DB::transaction(function () use ($data, $request, $tglInput, &$storedReceiptPath) {
-                $thisStart = now()->startOfMonth();
-                $thisEnd   = now()->endOfMonth();
-                $start = now()->subMonthNoOverflow()->startOfMonth();
-                $end   = now()->subMonthNoOverflow()->endOfMonth();
-                $customer = Customer::query()
-                    ->selectRaw(
-                        'COALESCE((
-                            SELECT mr.meter
-                            FROM meter_records mr
-                            WHERE mr.customer_id = customers.id
-                            AND mr.created_at BETWEEN ? AND ?
-                            ORDER BY mr.created_at DESC
-                            LIMIT 1
-                        ), 0) AS meter_lalu',
-                        [$start, $end]
-                    )
-                    ->where('id', $data['customer_id'])
-                    ->whereNotExists(function ($q) use ($thisStart, $thisEnd) {
-                        $q->selectRaw(1)
-                            ->from('meter_records')
-                            ->whereColumn('meter_records.customer_id', 'customers.id')
-                            ->whereBetween('created_at', [$thisStart, $thisEnd]);
-                    })
-                    ->first();
-                $meter_lalu = $data['meter_lalu'] ?? $customer?->meter_lalu;
-
-                // $meter_lalu = array_key_exists('meter_lalu', $data) ? $data['meter_lalu'] : 0;
-                // if (array_key_exists('meter_lalu', $data)) {
-                //     unset($data['meter_lalu']);
-                // }
-
-                $data['usage'] = (int)($data['meter'] - $meter_lalu);
-                $pencatatan = MeterRecord::create($data);
-                $customer = $pencatatan->customer;
-
+            $result = DB::transaction(function () use ($data, $tglInput, &$storedReceiptPath) {
                 $periode = $tglInput->copy()->startOfMonth();
 
                 $set = SetPrice::selectRaw('COALESCE(price,0) AS price, COALESCE(admin_fee,0) AS admin_fee')->first();
@@ -132,37 +91,40 @@ class PencatatanController extends Controller
                 $price     = (float) ($set->price ?? 0);
                 $admin_fee = (float) ($set->admin_fee ?? 0);
 
-                if ((int)$data['total_amount'] === 0) {
-                    $admin_fee = 0;
-                }
-
-
-                $meter_ini = (int)($pencatatan->meter ?? 0);
-
-                $pakai     = (int)($pencatatan->meter - $meter_lalu);
-                $materai     = (float) $request->input('duty_stamp', 0);
-                $retribusi   = (float) $request->input('retribution_fee', 0);
-                $denda       = (float) $request->input('fine', 0);
+                $meter_lalu = $data['meter_lalu'];
+                unset($data['meter_lalu']);
+                $data['usage'] = $data['meter'] - $meter_lalu;
+                $materai     = $data['duty_stamp'] ?? 0;
+                $retribusi   = $data['retribution_fee'] ?? 0;
+                $denda       = $data['fine'] ?? 0;
                 $admin_loket = auth()->user()->name ?? '-';
-                $harga_air = $price * $pakai;
+                $harga_air = $price * $data['usage'];
+                if ($harga_air === 0) {
+                    $admin_fee = 0;
+                    $materai = 0;
+                    $retribusi = 0;
+                    $denda = 0;
+                }
+                $data['total_amount'] = $harga_air + $admin_fee + $materai + $retribusi + $denda;
+                $pencatatan = MeterRecord::create($data);
 
                 $mm_to_pt = 72 / 25.4;
                 $width_pt  = 58 * $mm_to_pt;
                 $height_pt = 130 * $mm_to_pt;
 
                 $pdf = Pdf::loadView('exports.pdf.struk-pembayaran', [
-                    'customer'    => $customer,
+                    'customer'    => $pencatatan->customer,
                     'periode'     => $periode,
                     'meter_lalu'  => $meter_lalu,
-                    'meter_ini'   => $meter_ini,
-                    'pakai'       => $pakai,
+                    'meter_ini'   => $pencatatan->meter,
+                    'pakai'       => $pencatatan->usage,
                     'harga_air'   => $harga_air,
                     'admin_fee'   => $admin_fee,
-                    'materai'     => $materai,
-                    'retribusi'   => $retribusi,
-                    'denda'       => $denda,
+                    'materai'     => $pencatatan->duty_stamp,
+                    'retribusi'   => $pencatatan->retribution_fee,
+                    'denda'       => $pencatatan->fine,
                     'admin_loket' => $admin_loket,
-                    'total'       => $data['total_amount'],
+                    'total'       => $pencatatan->total_amount,
                 ])->setPaper([0, 0, $width_pt, $height_pt], 'portrait');
 
                 $filename = 'struk-' . $pencatatan->id . '.pdf';
@@ -174,14 +136,7 @@ class PencatatanController extends Controller
                 }
                 $storedReceiptPath = $path;
                 $pencatatan->update(['receipt' => $path]);
-                // return $pencatatan->fresh(['customer']);
-                return [
-                    'pencatatan' => $pencatatan->fresh(),
-                    'struk' => [
-                        'url'      => asset('storage/' . $path),
-                        'filename' => $filename,
-                    ],
-                ];
+                return $pencatatan->fresh(['customer']);
             });
 
             return successResponse("Data berhasil disimpan!", $result, 201);
