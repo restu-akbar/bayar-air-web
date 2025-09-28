@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PencatatanStoreRequest;
 use App\Http\Requests\PencatatanUpdateRequest;
+use App\Models\Customer;
 use App\Models\MeterRecord;
 use Illuminate\Support\Facades\Storage;
 use App\Models\SetPrice;
@@ -86,10 +87,37 @@ class PencatatanController extends Controller
 
             $data['receipt'] = '';
             $result = DB::transaction(function () use ($data, $request, $tglInput, &$storedReceiptPath) {
-                $meter_lalu = array_key_exists('meter_lalu', $data) ? $data['meter_lalu'] : 0;
-                if(array_key_exists('meter_lalu', $data)){
-                    unset($data['meter_lalu']);
-                }
+                $thisStart = now()->startOfMonth();
+                $thisEnd   = now()->endOfMonth();
+                $start = now()->subMonthNoOverflow()->startOfMonth();
+                $end   = now()->subMonthNoOverflow()->endOfMonth();
+                $customer = Customer::query()
+                    ->selectRaw(
+                        'COALESCE((
+                            SELECT mr.meter
+                            FROM meter_records mr
+                            WHERE mr.customer_id = customers.id
+                            AND mr.created_at BETWEEN ? AND ?
+                            ORDER BY mr.created_at DESC
+                            LIMIT 1
+                        ), 0) AS meter_lalu',
+                        [$start, $end]
+                    )
+                    ->where('id', $data['customer_id'])
+                    ->whereNotExists(function ($q) use ($thisStart, $thisEnd) {
+                        $q->selectRaw(1)
+                            ->from('meter_records')
+                            ->whereColumn('meter_records.customer_id', 'customers.id')
+                            ->whereBetween('created_at', [$thisStart, $thisEnd]);
+                    })
+                    ->first();
+                $meter_lalu = $customer?->meter_lalu;
+
+                // $meter_lalu = array_key_exists('meter_lalu', $data) ? $data['meter_lalu'] : 0;
+                // if (array_key_exists('meter_lalu', $data)) {
+                //     unset($data['meter_lalu']);
+                // }
+
                 $pencatatan = MeterRecord::create($data);
                 $customer = $pencatatan->customer;
 
@@ -110,7 +138,7 @@ class PencatatanController extends Controller
 
                 $meter_ini = (int)($pencatatan->meter ?? 0);
 
-                $pakai     = (int)($pencatatan->usage ?? 0);
+                $pakai     = (int)($pencatatan->meter - $customer?->meter_lalu);
                 $materai     = (float) $request->input('duty_stamp', 0);
                 $retribusi   = (float) $request->input('retribution_fee', 0);
                 $denda       = (float) $request->input('fine', 0);
