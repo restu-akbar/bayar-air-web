@@ -118,7 +118,7 @@ class PencatatanController extends Controller
                 //     unset($data['meter_lalu']);
                 // }
 
-                $data['usage'] = (int)($data['meter'] - $customer?->meter_lalu);
+                $data['usage'] = (int)($data['meter'] - $meter_lalu);
                 $pencatatan = MeterRecord::create($data);
                 $customer = $pencatatan->customer;
 
@@ -139,7 +139,7 @@ class PencatatanController extends Controller
 
                 $meter_ini = (int)($pencatatan->meter ?? 0);
 
-                $pakai     = (int)($pencatatan->meter - $customer?->meter_lalu);
+                $pakai     = (int)($pencatatan->meter - $meter_lalu);
                 $materai     = (float) $request->input('duty_stamp', 0);
                 $retribusi   = (float) $request->input('retribution_fee', 0);
                 $denda       = (float) $request->input('fine', 0);
