@@ -187,9 +187,12 @@ class PencatatanController extends Controller
         if ($bulanSebelumnya > 0) {
             $persentase = (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
         } else {
-            $persentase = $bulanIni > 0 ? 100 : 0;
+            if ($bulanIni > 0) {
+                $persentase = $bulanIni * 100;
+            } else {
+                $persentase = 0;
+            }
         }
-
         return successResponse("Data pencatatan per bulan", [
             'bulan'               => $current->month,
             'total'               => $bulanIni,
