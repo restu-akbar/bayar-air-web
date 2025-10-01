@@ -15,6 +15,8 @@ class Customer extends Model
         'phone_number',
         'rt',
         'rw',
+        'created_at',// untuk add pertama ya butuh gini...
+        'update_at'
     ];
 
     public function meterRecords()

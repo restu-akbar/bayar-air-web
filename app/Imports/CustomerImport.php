@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\MeterRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
@@ -18,6 +19,8 @@ class CustomerImport implements ToModel, WithHeadingRow
         if (!isset($row['nama']) || !isset($row['no_hp'])) {
             return null; 
         }
+
+        $periodeDate = now()->setDate($row['tahun'], $row['bulan'], 1)->endOfMonth()->startOfDay();
         
         // cari customer, kalau tidak ada buat baru
         $customer = Customer::firstOrCreate(
@@ -30,6 +33,8 @@ class CustomerImport implements ToModel, WithHeadingRow
                 'address' => $row['alamat_lengkap'],
                 'rt' => $row['rt'],
                 'rw' => $row['rw'],
+                'created_at' => $periodeDate,
+                'updated_at' => $periodeDate,
             ]
         );
 
@@ -47,8 +52,8 @@ class CustomerImport implements ToModel, WithHeadingRow
             'retribution_fee' => 0,
             'status' => 'sudah_bayar', // override default
             'usage' => 0,
-            'created_at' => now()->setDate($row['tahun'], $row['bulan'], 1), // Bulan & Tahun dari Excel
-            'updated_at' => now(),
+            'created_at' => $periodeDate,
+            'updated_at' => $periodeDate,
         ]);
     }
 }

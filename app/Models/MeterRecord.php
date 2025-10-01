@@ -23,6 +23,8 @@ class MeterRecord extends Model
         'duty_stamp',
         'retribution_fee',
         'status',
+        'created_at',// untuk add pertama ya butuh gini...
+        'update_at'
     ];
 
     public function getReceiptAttribute($value)
