@@ -91,8 +91,15 @@ class PencatatanController extends Controller
                 $price     = (float) ($set->price ?? 0);
                 $admin_fee = (float) ($set->admin_fee ?? 0);
 
-                $meter_lalu = $data['meter_lalu'];
-                unset($data['meter_lalu']);
+                $prevStart = $tglInput->copy()->subMonthNoOverflow()->startOfMonth();
+                $prevEnd   = $tglInput->copy()->subMonthNoOverflow()->endOfMonth();
+
+                $meter_lalu = MeterRecord::where('customer_id', $data['customer_id'])
+                    ->whereBetween('created_at', [$prevStart, $prevEnd])
+                    ->orderByDesc('created_at')
+                    ->value('meter');
+
+                $meter_lalu = $meter_lalu ?? 0;
                 $data['usage'] = $data['meter'] - $meter_lalu;
                 $materai     = $data['duty_stamp'] ?? 0;
                 $retribusi   = $data['retribution_fee'] ?? 0;

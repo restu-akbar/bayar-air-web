@@ -24,7 +24,6 @@ class PencatatanStoreRequest extends FormRequest
         return [
             'customer_id'    => 'required|string|exists:customers,id',
             'meter'          => 'required|integer|min:0|gte:meter_lalu',
-            'meter_lalu'     => 'required|integer|min:0',
             'evidence'       => 'required|file|mimes:jpg,jpeg,png|max:2048',
             'fine'           => 'nullable|integer|min:0',
             'duty_stamp'     => 'nullable|integer|min:0',
@@ -37,7 +36,6 @@ class PencatatanStoreRequest extends FormRequest
         return [
             'customer_id'     => 'pelanggan',
             'meter'           => 'angka meteran',
-            'meter_lalu'      => 'meteran bulan lalu',
             'evidence'        => 'bukti meteran',
             'fine'            => 'denda',
             'duty_stamp'      => 'bea materai',
