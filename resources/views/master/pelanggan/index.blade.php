@@ -13,9 +13,35 @@
                 <li class="breadcrumb-item active" aria-current="page">List</li>
             </ol>
         </div>
-    <a href="{{ route('master.pelanggan.create') }}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> Tambah Pelanggan
-    </a>
+        <div class="gap-2 d-flex">
+        {{-- Dropdown Import --}}
+        <div class="btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <i></i> Import
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="{{ route('master.pelanggan.import.template') }}">
+                        <i class="bi bi-download me-2"></i> Download Template
+                    </a>
+                </li>
+                <li>
+                    <label class="dropdown-item mb-0" for="importFile">
+                        <i class="bi bi-upload me-2"></i> Import User
+                    </label>
+                    <form id="importForm" action="{{ route('master.pelanggan.import.process') }}" method="POST" enctype="multipart/form-data" style="display:none;">
+                        @csrf
+                        <input type="file" id="importFile" name="file" accept=".xlsx,.csv" onchange="document.getElementById('importForm').submit()">
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        {{-- Tambah Pelanggan --}}
+        <a href="{{ route('master.pelanggan.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Tambah Pelanggan
+        </a>
+    </div>
 </div>
 
 <div class="card">

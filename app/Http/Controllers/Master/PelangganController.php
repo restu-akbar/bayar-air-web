@@ -10,6 +10,9 @@ use Illuminate\Support\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
+use App\Imports\CustomerImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class PelangganController extends Controller
 {
     protected $service;
@@ -108,5 +111,16 @@ class PelangganController extends Controller
         $customer = Customer::findOrFail($id);
         $customer->delete();
         return redirect()->route('master.pelanggan.index')->with('success', 'Customer deleted successfully.');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv',
+        ]);
+
+        Excel::import(new CustomerImport, $request->file('file'));
+
+        return redirect()->route('master.pelanggan.index')->with('success', 'Data berhasil diimport!');
     }
 }
