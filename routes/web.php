@@ -29,6 +29,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('master')->name('master.')->group(function () {
         Route::resource('user', UserController::class);
         Route::resource('pelanggan', PelangganController::class);
+        Route::post('pelanggan/import', [PelangganController::class, 'import'])->name('pelanggan.import.process');
+        Route::get('pelanggan/import/template', function () {
+            return response()->download(public_path('template/import_pelanggan.xlsx'));
+        })->name('pelanggan.import.template');
         Route::resource('setting', SettingController::class)->only(['index', 'store']);
     });
 

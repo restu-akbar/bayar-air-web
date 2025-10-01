@@ -23,8 +23,11 @@ return new class extends Migration
             $table->bigInteger('fine')->default(0);
             $table->bigInteger('duty_stamp')->default(0);
             $table->bigInteger('retribution_fee')->default(0);
-            $table->string('status')->default("Belum bayar");
+            $table->string('status')->default("Belum bayar"); //updated: "belum_bayar"
             $table->timestamps();
+
+            //tabel yang di add pada migrasi lanjutan
+            //$table->string('usage');
 
             $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
