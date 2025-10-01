@@ -106,7 +106,7 @@ class PencatatanController extends Controller
                 $denda       = $data['fine'] ?? 0;
                 $admin_loket = auth()->user()->name ?? '-';
                 $harga_air = $price * $data['usage'];
-                if ($harga_air === 0) {
+                if ($harga_air == 0) {
                     $admin_fee = 0;
                     $materai = 0;
                     $retribusi = 0;
