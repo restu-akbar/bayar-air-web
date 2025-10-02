@@ -7,14 +7,16 @@ use App\Http\Controllers\Master\SettingController;
 use App\Http\Controllers\Master\UserController;
 
 use App\Http\Controllers\ProfileController;
-
-
-
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('dashboard');
+    return view('landingpage');
 });
+
+Route::get('/landingpage', function () {
+    // kalau sudah login ke dashboard, kalau belum ke login (atur logika sesuai kebutuhan)
+    return redirect()->route('dashboard'); 
+})->name('landingpage.login');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['verified'])->name('dashboard');

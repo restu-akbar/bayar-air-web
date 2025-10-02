@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-bs-theme="blue-theme">
+<html lang="en" data-bs-theme="blue-theme">{{-- TODO: ini diganti jadi variabel agar persistent ketika ganti page tampilan nya --}}
 
 <head>
     <meta charset="utf-8">
@@ -15,7 +15,12 @@
     <link href="{{ asset('assets/plugins/metismenu/metisMenu.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/metismenu/mm-vertical.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
-    <!-- bootstrap css -->
+    @if (request()->is('/'))
+        <link href="{{ asset('assets/plugins/OwlCarousel/css/owl.carousel.min.css') }}">
+        <link href="{{ asset('assets/plugins/lightbox/dist/css/glightbox.min.css') }}">
+        <link href="{{ asset('assets/css/horizontal-menu.css') }}" rel="stylesheet">
+    @endif
+        <!-- bootstrap css -->
     <link rel="stylesheet" href="{{ asset('assets/css/extra-icons.css') }}">
     <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
@@ -31,35 +36,49 @@
 </head>
 
 <body>
-    <!-- start header -->
-    @include('partials.header')
-    <!-- end header -->
 
-    <!-- start sidebar -->
-    @include('partials.sidebar')
-    <!-- end sidebar -->
+     @if (!request()->is('/')) 
+        <!-- start header -->
+        @include('partials.header')
+        <!-- end header -->
+        <!-- start sidebar -->
+        @include('partials.sidebar')
+        <!-- end sidebar -->
+    @endif
+
 
     <!-- start main content -->
-    <div class="main-wrapper">
-        <div style="padding:1.5rem;">
-            @yield('content')
+    @if (!request()->is('/'))
+        <div class="main-wrapper">
+            <div style="padding:1.5rem;">
+                @yield('content')
+            </div>
         </div>
-    </div>
+    @else
+        <div class="main-wrapper" data-bs-spy="scroll" data-bs-target="#Parent_Scroll_Div" data-bs-smooth-scroll="false"
+        tabindex="0">
+            <div style="">
+                @yield('content')
+            </div>
+        </div>
+    @endif
     <!-- end main content -->
 
-    <!-- start overlay -->
-    <div class="overlay btn-toggle"></div>
-    <!-- end overlay -->
-
-    <!-- start footer -->
-    <footer class="page-footer">
-        <p class="mb-0">PTI Copyright ©{{ date('Y') }}. All right reserved.</p>
-    </footer>
-    <!-- end footer -->
-
     <!-- theme switcher -->
-    @include('components.switcher')
+    @if (!request()->is('/')) 
+        <!-- start overlay -->
+        <div class="overlay btn-toggle"></div>
+        <!-- end overlay -->
 
+        <!-- start footer -->
+        <footer class="page-footer">
+            <p class="mb-0">PTI Copyright ©{{ date('Y') }}. All right reserved.</p>
+        </footer>
+        <!-- end footer -->        
+    @endif
+    
+    @include('components.switcher')
+    
     <!-- bootstrap js -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <!-- plugins -->
@@ -73,7 +92,11 @@
         $(".data-attributes span").peity("donut");
         new PerfectScrollbar(".user-list");
     </script> --}}
-    <script src="{{ asset('assets/js/main.js') }}"></script>
+    @if (request()->is('/'))
+        <script src="{{ asset('assets/js/landing-main.js') }}"></script>
+    @else
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+    @endif
 
     @yield('script')
 </body>
