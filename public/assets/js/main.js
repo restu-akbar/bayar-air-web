@@ -6,9 +6,13 @@ $(function () {
 
   /* scrollar */
 
-  new PerfectScrollbar(".notify-list")
+if (document.querySelector(".notify-list")) {
+  new PerfectScrollbar(".notify-list");
+}
 
-  new PerfectScrollbar(".search-content")
+if (document.querySelector(".search-content")) {
+  new PerfectScrollbar(".search-content");
+}
 
   // new PerfectScrollbar(".mega-menu-widgets")
 
