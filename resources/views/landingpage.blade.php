@@ -3,7 +3,6 @@
     @include('components.landing-header')
     <!--start main wrapper-->
         <div class="main-content">
-
             <!--start banner-->
             <section class="py-5" id="home">
                 <div class="container py-4 px-4 px-lg-0">
