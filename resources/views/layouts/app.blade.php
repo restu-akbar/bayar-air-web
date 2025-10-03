@@ -27,12 +27,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
     <!-- main css -->
-    <link href="{{ asset('sass/main.css') }}" rel="stylesheet">
-    <link href="{{ asset('sass/dark-theme.css') }}" rel="stylesheet">
-    <link href="{{ asset('sass/blue-theme.css') }}" rel="stylesheet">
-    <link href="{{ asset('sass/semi-dark.css') }}" rel="stylesheet">
-    <link href="{{ asset('sass/bordered-theme.css') }}" rel="stylesheet">
-    <link href="{{ asset('sass/responsive.css') }}" rel="stylesheet">
+    @if (request()->is('/')) <!--dilanding page-->
+        <link href="{{ asset('sass/main-landing.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/landing/dark-theme.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/landing/blue-theme.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/landing/semi-dark.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/landing/bordered-theme.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/landing/responsive.css') }}" rel="stylesheet">
+    @else <!--else-->
+        <link href="{{ asset('sass/main.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/dark-theme.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/blue-theme.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/semi-dark.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/bordered-theme.css') }}" rel="stylesheet">
+        <link href="{{ asset('sass/responsive.css') }}" rel="stylesheet">
+    @endif
 </head>
 
 <body>
@@ -55,11 +64,9 @@
             </div>
         </div>
     @else
-        <div class="main-wrapper" data-bs-spy="scroll" data-bs-target="#Parent_Scroll_Div" data-bs-smooth-scroll="false"
+        <div class="landing-main-wrapper" data-bs-spy="scroll" data-bs-target="#Parent_Scroll_Div" data-bs-smooth-scroll="false"
         tabindex="0">
-            <div style="">
-                @yield('content')
-            </div>
+            @yield('content')
         </div>
     @endif
     <!-- end main content -->
