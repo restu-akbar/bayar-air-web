@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="en" data-bs-theme="blue-theme">{{-- TODO: ini diganti jadi variabel agar persistent ketika ganti page tampilan nya --}}
-
+<html lang="en" data-bs-theme="">
+    
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
