@@ -185,6 +185,12 @@ class PencatatanController extends Controller
             ->whereYear('created_at', $current->year)
             ->count();
 
+        $totalBukanUser = MeterRecord::query()
+            ->where('user_id', '!=', $userId)
+            ->whereMonth('created_at', $current->month)
+            ->whereYear('created_at', $current->year)
+            ->count();
+
         $bulanSebelumnya = MeterRecord::query()
             ->where('user_id', $userId)
             ->whereMonth('created_at', $previous->month)
@@ -194,16 +200,14 @@ class PencatatanController extends Controller
         if ($bulanSebelumnya > 0) {
             $persentase = (($bulanIni - $bulanSebelumnya) / $bulanSebelumnya) * 100;
         } else {
-            if ($bulanIni > 0) {
-                $persentase = $bulanIni * 100;
-            } else {
-                $persentase = 0;
-            }
+            $persentase = $bulanIni > 0 ? $bulanIni * 100 : 0;
         }
+
         return successResponse("Data pencatatan per bulan", [
-            'bulan'               => $current->month,
-            'total'               => $bulanIni,
-            'persentase' => round($persentase, 2),
+            'bulan'          => $current->month,
+            'total_user'     => $bulanIni,
+            'total_user_lain' => $totalBukanUser,
+            'persentase'     => round($persentase, 2),
         ]);
     }
 
