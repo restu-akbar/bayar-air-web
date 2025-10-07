@@ -23,7 +23,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     // module/*
     Route::prefix('module')->group(function () {
-        Route::resource('laporan', LaporanController::class)->only(['index', 'update']);
+        Route::resource('laporan', LaporanController::class)->only(['index', 'update','edit']);
+
+        //update untuk web
+        Route::put('laporan/{id}/laporan_update', [LaporanController::class, 'update_laporan'])->name('laporan.update_laporan');
         Route::get('/laporan/{id}', [LaporanController::class, 'detail_popup'])->name('laporan.detail');
     });
 
