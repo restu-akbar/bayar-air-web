@@ -61,6 +61,13 @@
                                     <img src="assets/images/bayar-air-image/banner-5.png" class="img-fluid"
                                         alt="Banner 5">
                                 </div>
+                                <!-- Optional: Controls -->
+                                <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon"></span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon"></span>
+                                </button>
                             </div>
                             <!-- Optional: Controls -->
                             <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel"
