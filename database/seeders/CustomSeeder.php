@@ -43,12 +43,15 @@ class CustomSeeder extends Seeder
 
             // Buat meter record untuk 12 bulan (1 per bulan)
             $meter = 1000;
+            $addition = 0;
             for ($month = 1; $month <= 12; $month++) {
+                $addition += rand(10, 20);
                 DB::table('meter_records')->insert([
                     'id' => Str::uuid(),
                     'customer_id' => $customerId,
                     'user_id' => $userId,
-                    'meter' => $meter += rand(10, 20), // naik tiap bulan
+                    'meter' => $meter += $addition, // naik tiap bulan
+                    'usage' =>$addition,
                     'evidence' => "evidence_{$i}_{$month}.jpg",
                     'receipt' => "receipt_{$i}_{$month}.pdf",
                     'total_amount' => collect([10000, 15000, 21000])->random(),
