@@ -127,7 +127,8 @@ jobs:
         uses: Burnett01/rsync-deployments@7.0.2
         with:
           switches: >-
-            -avzr --delete
+            -avzr --delete -v --stats
+            --no-perms --no-owner --no-group --omit-dir-times
             --exclude='.env'
             --exclude='storage/**'
             --exclude='.git/**'
