@@ -85,7 +85,7 @@
 
 
     @include('components.switcher')
-
+    
     <!-- bootstrap js -->
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <!-- plugins -->
@@ -99,6 +99,11 @@
         $(".data-attributes span").peity("donut");
         new PerfectScrollbar(".user-list");
     </script> --}}
+    @if (request()->is('/'))
+        <script src="{{ asset('assets/js/landing-main.js') }}"></script>
+    @else
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+    @endif
     @if (request()->is('/'))
         <script src="{{ asset('assets/js/landing-main.js') }}"></script>
     @else
