@@ -46,6 +46,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('master.faq.index') }}">
+                    <div class="parent-icon"><i class="material-icons-outlined">help_outline</i></div>
+                    <div class="menu-title">FAQ</div>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('master.setting.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">settings</i></div>
                     <div class="menu-title">Settings</div>

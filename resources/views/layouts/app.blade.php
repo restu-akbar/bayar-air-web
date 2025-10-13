@@ -15,6 +15,7 @@
     <link href="{{ asset('assets/plugins/metismenu/metisMenu.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/metismenu/mm-vertical.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
+    
     @if (request()->is('/'))
         <link href="{{ asset('assets/plugins/OwlCarousel/css/owl.carousel.min.css') }}">
         <link href="{{ asset('assets/plugins/lightbox/dist/css/glightbox.min.css') }}">
@@ -53,6 +54,9 @@
         @include('partials.header')
         @include('partials.sidebar')
         <!-- end header| sidebar -->
+
+    @else
+        @include('components.landing-header')
     @endif
 
 
@@ -99,11 +103,7 @@
         $(".data-attributes span").peity("donut");
         new PerfectScrollbar(".user-list");
     </script> --}}
-    @if (request()->is('/'))
-        <script src="{{ asset('assets/js/landing-main.js') }}"></script>
-    @else
-        <script src="{{ asset('assets/js/main.js') }}"></script>
-    @endif
+
     @if (request()->is('/'))
         <script src="{{ asset('assets/js/landing-main.js') }}"></script>
     @else

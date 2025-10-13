@@ -41,30 +41,44 @@
                         <a class="nav-link" href="#About">
                             <div class="parent-icon"><i class="material-icons-outlined">info</i>
                             </div>
-                            <div class="menu-title">About</div>
+                            <div class="menu-title">Tentang Kami</div>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#Services">
                             <div class="parent-icon"><i class="material-icons-outlined">work_outline</i>
                             </div>
-                            <div class="menu-title">Services</div>
+                            <div class="menu-title">Fitur</div>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#Team">
-                            <div class="parent-icon"><i class="material-icons-outlined">people_alt</i>
-                            </div>
-                            <div class="menu-title">Team</div>
-                        </a>
-                    </li>
+                    @if ($faqs->isNotEmpty())
+                        <li class="nav-item">
+                            <a class="nav-link" href="#FAQ">
+                                <div class="parent-icon"><i class="material-icons-outlined">help_outline</i>
+                                </div>
+                                <div class="menu-title">FAQ</div>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>
         <div class="">
-            <a class="btn btn-grd btn-grd-primary raised d-flex align-items-center rounded-5 gap-2 px-4" href="{{ route('login') }}">
-                <i class="material-icons-outlined">account_circle</i>Login
-            </a>
+            @guest
+                {{-- Jika belum login --}}
+                <a class="btn btn-grd btn-grd-primary raised d-flex align-items-center rounded-5 gap-2 px-4"
+                    href="{{ route('login') }}">
+                    <i class="material-icons-outlined">account_circle</i>Login
+                </a>
+            @endguest
+
+            @auth
+                {{-- Jika sudah login --}}
+                <a class="btn btn-grd btn-grd-success raised d-flex align-items-center rounded-5 gap-2 px-4"
+                    href="{{ route('dashboard') }}">
+                    <i class="material-icons-outlined">dashboard</i>Ke Dashboard
+                </a>
+            @endauth
         </div>
     </nav>
 </header>

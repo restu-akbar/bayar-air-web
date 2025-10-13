@@ -1,15 +1,11 @@
 @extends('layouts.app')
 @section('content')
-    @include('components.landing-header')
     <style>
         #bannerCarousel .carousel-item img {
             width: 100%;
             height: 320px;
-            /* tentukan tinggi tetap */
             object-fit: cover;
-            /* crop rapi tanpa distorsi */
             border-radius: 1rem;
-            /* jika ingin sudut membulat */
         }
     </style>
     <!--start main wrapper-->
@@ -42,30 +38,27 @@
                         <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
                             <div class="carousel-inner rounded-4 shadow-sm">
                                 <div class="carousel-item active">
-                                    <img src="assets/images/bayar-air-image/banner-1.png" class="img-fluid"
-                                        alt="Banner 1">
+                                    <img src="assets/images/bayar-air-image/banner-1.png" class="img-fluid" alt="Banner 1">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="assets/images/bayar-air-image/banner-2.png" class="img-fluid"
-                                        alt="Banner 2">
+                                    <img src="assets/images/bayar-air-image/banner-2.png" class="img-fluid" alt="Banner 2">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="assets/images/bayar-air-image/banner-3.png" class="img-fluid"
-                                        alt="Banner 3">
+                                    <img src="assets/images/bayar-air-image/banner-3.png" class="img-fluid" alt="Banner 3">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="assets/images/bayar-air-image/banner-4.png" class="img-fluid"
-                                        alt="Banner 4">
+                                    <img src="assets/images/bayar-air-image/banner-4.png" class="img-fluid" alt="Banner 4">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="assets/images/bayar-air-image/banner-5.png" class="img-fluid"
-                                        alt="Banner 5">
+                                    <img src="assets/images/bayar-air-image/banner-5.png" class="img-fluid" alt="Banner 5">
                                 </div>
                                 <!-- Optional: Controls -->
-                                <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel"
+                                    data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon"></span>
                                 </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                                <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel"
+                                    data-bs-slide="next">
                                     <span class="carousel-control-next-icon"></span>
                                 </button>
                             </div>
@@ -216,113 +209,42 @@
         </section>
         <!--end services-->
 
-        <!--start team-->
-        <section class="py-5 bg-section" id="Team">
-            <div class="container py-4 px-4 px-lg-0">
-                <div class="section-title text-center mb-5">
-                    <h1 class="mb-0 section-title-name">Team</h1>
+        <!--start FAQ-->
+        @if ($faqs->isNotEmpty())
+            <section class="py-5 bg-section" id="FAQ">
+                <div class="container py-4 px-4 px-lg-0">
+                    <div class="section-title text-center mb-5">
+                        <h1 class="mb-0 section-title-name">FAQ</h1>
+                        <p class="mb-0">Pertanyaan yang sering diajukan oleh pengguna kami</p>
+                        <p>Click Pertanyaa untuk membuka jawaban nya</p>
+                    </div>
+
+                    <div class="accordion" id="faqAccordion">
+                        @foreach ($faqs as $index => $faq)
+                            <div class="accordion-item mb-3 rounded-4 shadow-sm border-0">
+                                <h2 class="accordion-header" id="heading{{ $index }}">
+                                    <button class="accordion-button {{ $index !== 0 ? 'collapsed' : '' }}" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#collapse{{ $index }}"
+                                        aria-expanded="{{ $index === 0 ? 'true' : 'false' }}"
+                                        aria-controls="collapse{{ $index }}">
+                                        {{ $faq->question }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ $index }}"
+                                    class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                                    aria-labelledby="heading{{ $index }}" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        {{ $faq->answear }}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-
-                <div class="row row-cols-1 row-cols-xl-2 g-4">
-                    <div class="col">
-                        <div class="card mb-0 rounded-4">
-                            <div class="card-body p-4">
-                                <div class="d-flex flex-column flex-lg-row align-items-center gap-4">
-                                    <div class="">
-                                        <img src="https://placehold.co/120x120/png" width="120" height="120"
-                                            class="rounded-circle p-1 bg-white bg-grd-warning" alt="">
-                                    </div>
-                                    <div class="profile-info">
-                                        <div class="my-4">
-                                            <h3 class="mb-1">Arshal Fadilah</h3>
-                                            <p class="mb-3 fs-6">Project Manager</p>
-                                            <p class="mb-0">
-                                                Bertanggung jawab dalam perencanaan, koordinasi, dan pengawasan proyek untuk
-                                                memastikan setiap tahap berjalan sesuai target.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card mb-0 rounded-4">
-                            <div class="card-body p-4">
-                                <div class="d-flex flex-column flex-lg-row align-items-center gap-4">
-                                    <div class="">
-                                        <img src="https://placehold.co/120x120/png" width="120" height="120"
-                                            class="rounded-circle p-1 bg-white bg-grd-danger" alt="">
-                                    </div>
-                                    <div class="profile-info">
-                                        <div class="my-4">
-                                            <h3 class="mb-1">Restu Akbar</h3>
-                                            <p class="mb-3 fs-6">Technical Lead / Full-stack Developer</p>
-                                            <p class="mb-0">
-                                                Memimpin pengembangan teknis dan memastikan kualitas serta efisiensi sistem
-                                                yang dibangun.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card mb-0 rounded-4">
-                            <div class="card-body p-4">
-                                <div class="d-flex flex-column flex-lg-row align-items-center gap-4">
-                                    <div class="">
-                                        <img src="https://placehold.co/120x120/png" width="120" height="120"
-                                            class="rounded-circle p-1 bg-white bg-grd-primary" alt="">
-                                    </div>
-                                    <div class="profile-info">
-                                        <div class="my-4">
-                                            <h4 class="mb-1">Sulthan Aulia Rahman</h4>
-                                            <p class="mb-3">Full-stack Developer</p>
-                                            <p class="mb-0">
-                                                Mengembangkan antarmuka pengguna dan backend dengan pendekatan modern untuk
-                                                pengalaman yang optimal.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{--  --}}
-                    <div class="col">
-                        <div class="card mb-0 rounded-4">
-                            <div class="card-body p-4">
-                                <div class="d-flex flex-column flex-lg-row align-items-center gap-4">
-                                    <div class="">
-                                        <img src="https://placehold.co/120x120/png" width="120" height="120"
-                                            class="rounded-circle p-1 bg-white bg-grd-success" alt="">
-                                    </div>
-                                    <div class="profile-info">
-                                        <div class="my-4">
-                                            <h4 class="mb-1">Fasya Fauziyah</h4>
-                                            <p class="mb-3">Quality Assurance</p>
-                                            <p class="mb-0">
-                                                Menjamin kualitas sistem melalui proses pengujian menyeluruh untuk hasil
-                                                yang andal dan stabil.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div><!--end row-->
-            </div>
-        </section>
-        <!--end team-->
+            </section>
+        @endif
+        <!--end FAQ-->
     </div>
-
-    <!--Start Back To Top Button-->
-    <a href="javaScript:;" class="back-to-top"><i class="material-icons-outlined">arrow_upward</i></a>
-    <!--End Back To Top Button-->
-
 
     <!--plugins-->
     <script src="assets/js/jquery.min.js"></script>

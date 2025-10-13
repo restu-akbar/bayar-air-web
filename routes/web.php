@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\PelangganController;
+use App\Http\Controllers\Master\FaqController;
 use App\Http\Controllers\Module\LaporanController;
 use App\Http\Controllers\Master\SettingController;
 use App\Http\Controllers\Master\UserController;
@@ -9,8 +10,14 @@ use App\Http\Controllers\Master\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Faq;
+
 Route::get('/', function () {
-    return view('landingpage');
+    $faqs = Faq::where('platform', 'web')
+            ->latest() //yang terbaru dulu
+            ->get(['question', 'answear']);
+
+    return view('landingpage', compact('faqs'));
 });
 
 Route::get('/landingpage', function () {
@@ -34,6 +41,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('master')->name('master.')->group(function () {
         Route::resource('user', UserController::class);
         Route::resource('pelanggan', PelangganController::class);
+        Route::resource('faq', FaqController::class);
         Route::post('pelanggan/import', [PelangganController::class, 'import'])->name('pelanggan.import.process');
         Route::get('pelanggan/import/template', function () {
             return response()->download(public_path('template/import_pelanggan.xlsx'));

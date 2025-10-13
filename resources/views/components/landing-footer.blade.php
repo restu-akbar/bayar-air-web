@@ -30,14 +30,16 @@
                         <i class="material-icons-outlined fs-6">chevron_right</i> Home
                     </a></li>
                     <li><a href="#About" class="text-light text-decoration-none d-flex align-items-center gap-2">
-                        <i class="material-icons-outlined fs-6">chevron_right</i> About
+                        <i class="material-icons-outlined fs-6">chevron_right</i> Tentang Kami
                     </a></li>
                     <li><a href="#Services" class="text-light text-decoration-none d-flex align-items-center gap-2">
-                        <i class="material-icons-outlined fs-6">chevron_right</i> Services
+                        <i class="material-icons-outlined fs-6">chevron_right</i> Fitur
                     </a></li>
-                    <li><a href="#Team" class="text-light text-decoration-none d-flex align-items-center gap-2">
-                        <i class="material-icons-outlined fs-6">chevron_right</i> Team
-                    </a></li>
+                    @if ($faqs->isNotEmpty())
+                        <li><a href="#FAQ" class="text-light text-decoration-none d-flex align-items-center gap-2">
+                            <i class="material-icons-outlined fs-6">chevron_right</i> FAQ
+                        </a></li>
+                    @endif
                 </ul>
             </div>
 
