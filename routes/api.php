@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\FaqController;
 use App\Http\Controllers\Api\PelangganController;
 use App\Http\Controllers\Api\PencatatanController;
 use App\Http\Controllers\Api\HargaController;
@@ -26,5 +27,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('pie-chart', [PencatatanController::class, 'getPieChart']);
         Route::get('bar-chart', [PencatatanController::class, 'getBarChart']);
     });
+    Route::get('/faq', [FaqController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
