@@ -50,11 +50,11 @@ class FaqController extends Controller
     {
         $validated = $request->validate([
             'question' => 'required|string|max:255',
-            'answear'  => 'required|string',
+            'answer'  => 'required|string',
             'platform' => 'required|string',
         ], [
             'question.required' => 'Pertanyaan wajib diisi.',
-            'answear.required'  => 'Jawaban wajib diisi.',
+            'answer.required'  => 'Jawaban wajib diisi.',
             'platform.required' => 'dimana penempatan nya?',
         ]);
 
@@ -75,11 +75,11 @@ class FaqController extends Controller
     {
         $validated = $request->validate([
             'question' => 'required|string|max:255',
-            'answear'  => 'required|string',
+            'answer'  => 'required|string',
             'platform' => 'required|string',
         ], [
             'question.required' => 'Pertanyaan wajib diisi.',
-            'answear.required'  => 'Jawaban wajib diisi.',
+            'answer.required'  => 'Jawaban wajib diisi.',
             'platform.required' => 'dimana penempatan nya?',
         ]);
 

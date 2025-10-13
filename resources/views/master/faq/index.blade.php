@@ -27,9 +27,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Question</th>
-                        <th>Answear</th>
-                        <th>platform</th>
+                        <th>Pertanyaan</th>
+                        <th>Jawaban</th>
+                        <th>Platform</th>
                         <th>Tanggal dibuat</th>
                         <th>Action</th>
                     </tr>
@@ -99,7 +99,7 @@
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false },
                 { data: 'question', name: 'question' },
-                { data: 'answear', name: 'answear' },
+                { data: 'answer', name: 'answer' },
                 { data: 'platform', name: 'platform' },
                 { data: 'created_at', name: 'created_at' },
                 { data: 'action', name: 'action', orderable:false, searchable:false }

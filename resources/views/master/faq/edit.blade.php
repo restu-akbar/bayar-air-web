@@ -34,10 +34,10 @@
 
                 {{-- Jawaban --}}
                 <div class="row mb-3">
-                    <label for="answear" class="col-sm-3 col-form-label">Jawaban</label>
+                    <label for="answer" class="col-sm-3 col-form-label">Jawaban</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" id="answear" name="answear" rows="2" placeholder="Masukkan jawaban">{{ old('answear', $faq->answear) }}</textarea>
-                        @error('answear')
+                        <textarea class="form-control" id="answer" name="answer" rows="2" placeholder="Masukkan jawaban">{{ old('answer', $faq->answer) }}</textarea>
+                        @error('answer')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>
@@ -48,9 +48,12 @@
                     <label for="platform" class="col-sm-3 col-form-label">Pilih Platform</label>
                     <div class="col-sm-9">
                         <select class="form-select" id="platform" name="platform">
-                            <option value="" {{ old('platform',$faq->platform) ? '' : 'selected' }}>Pilih Platform</option>
-                            <option value="web" {{ old('platform',$faq->platform) == 'web' ? 'selected' : '' }}>web</option>
-                            <option value="mobile" {{ old('platform',$faq->platform) == 'mobile' ? 'selected' : '' }}>mobile</option>
+                            <option value="" {{ old('platform', $faq->platform) ? '' : 'selected' }}>Pilih Platform
+                            </option>
+                            <option value="web" {{ old('platform', $faq->platform) == 'web' ? 'selected' : '' }}>web
+                            </option>
+                            <option value="mobile" {{ old('platform', $faq->platform) == 'mobile' ? 'selected' : '' }}>mobile
+                            </option>
                         </select>
                         @error('platform')
                             <small class="text-danger">{{ $message }}</small>

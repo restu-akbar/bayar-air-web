@@ -35,10 +35,10 @@
 
                 {{-- Jawaban --}}
                 <div class="row mb-3">
-                    <label for="answear" class="col-sm-3 col-form-label">Jawaban</label>
+                    <label for="answer" class="col-sm-3 col-form-label">Jawaban</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" id="answear" name="answear" rows="2" placeholder="Masukkan jawaban">{{ old('answear') }}</textarea>
-                        @error('answear')
+                        <textarea class="form-control" id="answer" name="answer" rows="2" placeholder="Masukkan jawaban">{{ old('answer') }}</textarea>
+                        @error('answer')
                             <small class="text-danger">{{ $message }}</small>
                         @enderror
                     </div>

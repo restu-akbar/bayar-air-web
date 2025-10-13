@@ -15,7 +15,7 @@ use App\Models\Faq;
 Route::get('/', function () {
     $faqs = Faq::where('platform', 'web')
             ->latest() //yang terbaru dulu
-            ->get(['question', 'answear']);
+            ->get(['question', 'answer']);
 
     return view('landingpage', compact('faqs'));
 });

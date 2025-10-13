@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('faq', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string("question");
-            $table->string("answear");
+            $table->string("answer");
             $table->string('platform')->default('web');
             $table->timestamps();
         });
