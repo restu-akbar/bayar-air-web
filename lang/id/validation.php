@@ -97,9 +97,9 @@ return [
     'mac_address' => 'The :attribute field must be a valid MAC address.',
     'max' => [
         'array' => 'The :attribute field must not have more than :max items.',
-        'file' => 'The :attribute field must not be greater than :max kilobytes.',
+        'file' => 'File :attribute tidak boleh lebih dari :mb MB.',
         'numeric' => 'The :attribute field must not be greater than :max.',
-        'string' => 'The :attribute field must not be greater than :max characters.',
+        'string' => ':attribute tidak boleh lebih dari :max karakter.',
     ],
     'max_digits' => 'The :attribute field must not have more than :max digits.',
     'mimes' => 'The :attribute field must be a file of type: :values.',
@@ -107,7 +107,7 @@ return [
     'min' => [
         'array' => 'The :attribute field must have at least :min items.',
         'file' => 'The :attribute field must be at least :min kilobytes.',
-        'numeric' => 'The :attribute field must be at least :min.',
+        'numeric' => ':attribute tidak boleh kurang dari :min.',
         'string' => 'The :attribute field must be at least :min characters.',
     ],
     'min_digits' => 'The :attribute field must have at least :min digits.',
