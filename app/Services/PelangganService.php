@@ -8,18 +8,37 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use illuminate\Support\Str;
 
 class PelangganService
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Customer::select(['id', 'name', 'address', 'phone_number', 'rt', 'rw', 'created_at']);
+             $data = Customer::select([
+                'customers.id',
+                'customers.name',
+                'customers.address',
+                'customers.phone_number',
+                'customers.rt',
+                'customers.rw',
+                'customers.created_at',
+                'branches.name as branch_name'
+            ])
+            ->leftJoin('branches', 'branches.id', '=', 'customers.branch_id');
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($row) {
                     return Carbon::parse($row->created_at)->format('d-m-Y');
+                })
+                ->editColumn('address', function ($row) {
+                    $full = e($row->address);
+                    $short = e(Str::limit($row->address, 50, '...'));
+                    return "<span title='{$full}'>{$short}</span>";
+                })
+                ->addColumn('branch_name', function ($row) {
+                    return $row->branch_name ?? "tidak memilik Branch";
                 })
                 ->addColumn('action', function ($row) {
                     $editUrl = route('master.pelanggan.edit', $row->id);
@@ -40,7 +59,7 @@ class PelangganService
                         </form>
                     </div>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','address'])
                 ->make(true);
         }
 

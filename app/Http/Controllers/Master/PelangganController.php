@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Master;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use App\Models\Branch;
 use App\Services\PelangganService;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
 
 use App\Imports\CustomerImport;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PelangganController extends Controller
@@ -28,7 +30,8 @@ class PelangganController extends Controller
 
     public function create()
     {
-        return view('master.pelanggan.create');
+        $branches = Branch::all();
+        return view('master.pelanggan.create', compact('branches'));
     }
 
     public function store(Request $request)
@@ -40,6 +43,7 @@ class PelangganController extends Controller
             'phone_number' => 'required|string|max:13|unique:customers,phone_number',
             'rt' => 'required',
             'rw' => 'required',
+            'branch_id' => 'nullable|exists:branches,id',
         ]);
 
         if ($validator->fails()) {
@@ -55,6 +59,7 @@ class PelangganController extends Controller
             'phone_number' => $request->phone_number,
             'rt' => $request->rt,
             'rw' => $request->rw,
+            'branch_id' => $request->branch_id,
         ]);
 
         // Redirect with success message
@@ -72,11 +77,13 @@ class PelangganController extends Controller
     public function edit($id)
     {
         $customer = Customer::findOrFail($id);
-        return view('master.pelanggan.edit', compact('customer'));
+        $branches = Branch::all();
+        return view('master.pelanggan.edit', compact('customer','branches'));
     }
 
     public function update(Request $request, $id)
     {
+        Log::info(request());
         $customer = Customer::findOrFail($id);
 
         // Validate the request
@@ -86,6 +93,7 @@ class PelangganController extends Controller
             'phone_number' => 'required|string|max:13|unique:customers,phone_number,' . $customer->id,
             'rt' => 'required',
             'rw' => 'required',
+            'branch_id' => 'nullable|exists:branches,id',
         ]);
 
 
@@ -101,6 +109,7 @@ class PelangganController extends Controller
             'phone_number' => $request->phone_number,
             'rt' => $request->rt,
             'rw' => $request->rw,
+            'branch_id' => $request->branch_id,
         ]);
 
         return redirect()->route('master.pelanggan.index')->with('success', 'Customer updated successfully.');

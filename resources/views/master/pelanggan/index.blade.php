@@ -53,6 +53,7 @@
                         <th>#</th>
                         <th>Nama</th>
                         <th>Alamat</th>
+                        <th>Cabang</th>
                         <th>No. HP</th>
                         <th>RT/RW</th>
                         <th>Tanggal dibuat</th>
@@ -124,6 +125,7 @@
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false },
                 { data: 'name', name: 'name' },
                 { data: 'address', name: 'address' },
+                { data: 'branch_name', name: 'branches.name' },
                 { data: 'phone_number', name: 'phone_number' },
                 {
                     data: null,
@@ -135,8 +137,17 @@
                 },
                 { data: 'created_at', name: 'created_at' },
                 { data: 'action', name: 'action', orderable:false, searchable:false }
-            ]
+            ],
+            drawCallback: function() {
+            $('[title]').tooltip();
+        }
         });
     });
+</script>
+
+<script>
+$(document).ready(function () {
+    $('[title]').tooltip();
+});
 </script>
 @endsection

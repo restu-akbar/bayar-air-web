@@ -54,6 +54,21 @@
                     </div>
                 </div>
 
+                {{-- Branch --}}
+                <div class="row mb-3">
+                    <label for="branch_id" class="col-sm-3 col-form-label">Cabang</label>
+                    <div class="col-sm-9">
+                        <select class="form-select" name="branch_id" id="branch_id">
+                            <option value="">-- Pilih Cabang --</option>
+                            @foreach($branches as $branch)
+                                <option value="{{ $branch->id }}" {{ $customer->branch_id  == $branch->id ? 'selected' : '' }}>
+                                    {{ $branch->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 {{-- Nomor HP --}}
                 <div class="row mb-3">
                     <label for="phone_number" class="col-sm-3 col-form-label">Nomor HP</label>

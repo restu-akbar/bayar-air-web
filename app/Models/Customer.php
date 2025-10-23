@@ -12,6 +12,7 @@ class Customer extends Model
     protected $fillable = [
         'name',
         'address',
+        'branch_id',
         'phone_number',
         'rt',
         'rw',
@@ -22,5 +23,10 @@ class Customer extends Model
     public function meterRecords()
     {
         return $this->hasMany(MeterRecord::class);
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class);
     }
 }
