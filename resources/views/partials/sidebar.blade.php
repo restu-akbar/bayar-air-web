@@ -46,6 +46,12 @@
                 </a>
             </li>
             <li>
+                <a href="{{ route('master.branch.index') }}">
+                    <div class="parent-icon"><i class="material-icons-outlined">domain_add</i></div>
+                    <div class="menu-title">Cabang</div>
+                </a>
+            </li>
+            <li>
                 <a href="{{ route('master.faq.index') }}">
                     <div class="parent-icon"><i class="material-icons-outlined">help_outline</i></div>
                     <div class="menu-title">FAQ</div>

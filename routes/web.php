@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Master\PelangganController;
+use App\Http\Controllers\Master\BranchController;
 use App\Http\Controllers\Master\FaqController;
 use App\Http\Controllers\Module\LaporanController;
 use App\Http\Controllers\Master\SettingController;
@@ -41,6 +42,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::prefix('master')->name('master.')->group(function () {
         Route::resource('user', UserController::class);
         Route::resource('pelanggan', PelangganController::class);
+        Route::resource('branch', BranchController::class);
         Route::resource('faq', FaqController::class);
         Route::post('pelanggan/import', [PelangganController::class, 'import'])->name('pelanggan.import.process');
         Route::get('pelanggan/import/template', function () {

@@ -35,10 +35,8 @@ class MeterRecord extends Model
             if (Str::startsWith($value, ['http://', 'https://'])) {
                 return $value;
             }
-            Log::info("cek mobile".$value);
             return asset('storage/' . $value);
         }
-        Log::info("cek url web ".$value);
 
         return $value;
     }
