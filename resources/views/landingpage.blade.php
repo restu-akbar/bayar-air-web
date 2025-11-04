@@ -26,7 +26,7 @@
                                 style="background-color: #25D366; box-shadow: 0 4px 12px rgba(37,211,102,0.3); transition: all 0.2s ease;">
                                 <i class="bi bi-whatsapp fs-4"></i> Kontak Sekarang
                             </a>
-                            <a href="https://play.google.com/store/apps/details?id=com.yourapp" target="_blank"
+                            <a href="https://play.google.com/store/apps/details?id=org.com.bayarair&pcampaignid=web_share" target="_blank"
                                 class="btn btn-lg d-flex align-items-center justify-content-center rounded-5 gap-2 px-4 py-2 text-white"
                                 style="background-color: #000000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.2s ease;">
                                 <i class="bi bi-google-play fs-4"></i> Dapatkan di playstore
